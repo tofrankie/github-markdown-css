@@ -1,0 +1,35 @@
+{
+  "name": "playground",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.33.4",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --fix",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@bytemd/plugin-breaks": "1.22.0",
+    "@bytemd/plugin-frontmatter": "1.22.0",
+    "@bytemd/plugin-gemoji": "1.22.0",
+    "@bytemd/plugin-gfm": "1.22.0",
+    "@bytemd/plugin-math": "1.22.0",
+    "@bytemd/plugin-medium-zoom": "1.22.0",
+    "@bytemd/react": "^1.22.0",
+    "@tofrankie/bytemd-plugin-highlight": "^0.0.2",
+    "@tofrankie/github-markdown-css": "workspace:*",
+    "bytemd": "^1.22.0",
+    "bytemd-plugin-github-alerts": "0.0.3",
+    "bytemd-plugin-mermaid": "0.0.2",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "vite": "^8.0.12"
+  }
+}

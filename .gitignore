@@ -1,0 +1,36 @@
+# Dependency
+node_modules/
+dist/
+.pnpm-store/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+
+# Cache
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
+
+# Test
+coverage/
+
+# Agents
+.agents/
+.codex/
+.claude/
+.cursor/
+
+# Local
+.env
+.env.*
+!.env.example
+*.tgz
+*.vsix

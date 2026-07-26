@@ -1,0 +1,58 @@
+{
+  "name": "@tofrankie/github-markdown-css",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.33.4",
+  "description": "",
+  "author": "Frankie <1426203851@qq.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/tofrankie/example",
+  "keywords": [],
+  "exports": {
+    ".": "./dist/index.js",
+    "./github-markdown.css": "./dist/github-markdown.css",
+    "./themes/*": "./dist/themes/*",
+    "./bundles/*": "./dist/bundles/*"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node ./scripts/build-css.mjs",
+    "lint": "run-s lint:prettier lint:eslint lint:stylelint typecheck",
+    "lint:eslint": "eslint . --cache --fix",
+    "lint:prettier": "prettier . --cache --write --log-level silent",
+    "lint:stylelint": "stylelint '**/*.{css,scss}' --cache --fix --ignore-path .gitignore",
+    "typecheck": "tsc --noEmit",
+    "publint": "publint",
+    "prepublishOnly": "run-s lint build",
+    "prepare": "simple-git-hooks",
+    "lint-staged": "lint-staged"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.1",
+    "@fission-ai/openspec": "^1.6.0",
+    "@primer/css": "^22.3.0",
+    "@primer/primitives": "^11.9.0",
+    "@tofrankie/commitlint": "^0.0.6",
+    "@tofrankie/eslint": "^0.5.0",
+    "@tofrankie/prettier": "^0.2.0",
+    "@tofrankie/stylelint": "^0.4.0",
+    "@tofrankie/tsconfig": "^0.2.1",
+    "@types/node": "^26.1.1",
+    "eslint": "^10.8.0",
+    "lint-staged": "^16.4.0",
+    "npm-run-all2": "^9.0.2",
+    "prettier": "^3.9.6",
+    "publint": "^0.3.22",
+    "sass": "^1.102.0",
+    "simple-git-hooks": "^2.13.1",
+    "stylelint": "^17.14.1",
+    "typescript": "^5.9.3"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged",
+    "commit-msg": "pnpm exec commitlint --edit $1"
+  }
+}
