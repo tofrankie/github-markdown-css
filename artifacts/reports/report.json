@@ -27,8 +27,410 @@
     "--fgColor-muted",
     "--fontStack-sansSerif"
   ],
+  "publishedOutputs": {
+    "primer": [
+      {
+        "darkThemeKey": null,
+        "fileName": "dark-colorblind-high-contrast.css",
+        "hasDarkMedia": true,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "primer",
+        "themeKey": "dark-colorblind-high-contrast"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "dark-colorblind.css",
+        "hasDarkMedia": true,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "primer",
+        "themeKey": "dark-colorblind"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "dark-dimmed-high-contrast.css",
+        "hasDarkMedia": true,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "primer",
+        "themeKey": "dark-dimmed-high-contrast"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "dark-dimmed.css",
+        "hasDarkMedia": true,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "primer",
+        "themeKey": "dark-dimmed"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "dark-high-contrast.css",
+        "hasDarkMedia": true,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "primer",
+        "themeKey": "dark-high-contrast"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "dark-tritanopia-high-contrast.css",
+        "hasDarkMedia": true,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "primer",
+        "themeKey": "dark-tritanopia-high-contrast"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "dark-tritanopia.css",
+        "hasDarkMedia": true,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "primer",
+        "themeKey": "dark-tritanopia"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "dark.css",
+        "hasDarkMedia": true,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "primer",
+        "themeKey": "dark"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "light-colorblind-high-contrast.css",
+        "hasDarkMedia": true,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "primer",
+        "themeKey": "light-colorblind-high-contrast"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "light-colorblind.css",
+        "hasDarkMedia": true,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "primer",
+        "themeKey": "light-colorblind"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "light-high-contrast.css",
+        "hasDarkMedia": true,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "primer",
+        "themeKey": "light-high-contrast"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "light-tritanopia-high-contrast.css",
+        "hasDarkMedia": true,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "primer",
+        "themeKey": "light-tritanopia-high-contrast"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "light-tritanopia.css",
+        "hasDarkMedia": true,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "primer",
+        "themeKey": "light-tritanopia"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "light.css",
+        "hasDarkMedia": true,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "primer",
+        "themeKey": "light"
+      },
+      {
+        "darkThemeKey": "dark",
+        "fileName": "auto.css",
+        "hasDarkMedia": true,
+        "kind": "auto",
+        "lightThemeKey": "light",
+        "scope": "primer",
+        "themeKey": null
+      },
+      {
+        "darkThemeKey": "dark-colorblind",
+        "fileName": "auto-colorblind.css",
+        "hasDarkMedia": true,
+        "kind": "auto",
+        "lightThemeKey": "light-colorblind",
+        "scope": "primer",
+        "themeKey": null
+      },
+      {
+        "darkThemeKey": "dark-high-contrast",
+        "fileName": "auto-high-contrast.css",
+        "hasDarkMedia": true,
+        "kind": "auto",
+        "lightThemeKey": "light-high-contrast",
+        "scope": "primer",
+        "themeKey": null
+      },
+      {
+        "darkThemeKey": "dark-tritanopia",
+        "fileName": "auto-tritanopia.css",
+        "hasDarkMedia": true,
+        "kind": "auto",
+        "lightThemeKey": "light-tritanopia",
+        "scope": "primer",
+        "themeKey": null
+      },
+      {
+        "darkThemeKey": "dark-colorblind-high-contrast",
+        "fileName": "auto-colorblind-high-contrast.css",
+        "hasDarkMedia": true,
+        "kind": "auto",
+        "lightThemeKey": "light-colorblind-high-contrast",
+        "scope": "primer",
+        "themeKey": null
+      },
+      {
+        "darkThemeKey": "dark-tritanopia-high-contrast",
+        "fileName": "auto-tritanopia-high-contrast.css",
+        "hasDarkMedia": true,
+        "kind": "auto",
+        "lightThemeKey": "light-tritanopia-high-contrast",
+        "scope": "primer",
+        "themeKey": null
+      },
+      {
+        "darkThemeKey": "dark-dimmed",
+        "fileName": "auto-dimmed.css",
+        "hasDarkMedia": true,
+        "kind": "auto",
+        "lightThemeKey": "light",
+        "scope": "primer",
+        "themeKey": null
+      },
+      {
+        "darkThemeKey": "dark-dimmed-high-contrast",
+        "fileName": "auto-dimmed-high-contrast.css",
+        "hasDarkMedia": true,
+        "kind": "auto",
+        "lightThemeKey": "light-high-contrast",
+        "scope": "primer",
+        "themeKey": null
+      }
+    ],
+    "scoped": [
+      {
+        "darkThemeKey": null,
+        "fileName": "dark-colorblind-high-contrast.css",
+        "hasDarkMedia": false,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "scoped",
+        "themeKey": "dark-colorblind-high-contrast"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "dark-colorblind.css",
+        "hasDarkMedia": false,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "scoped",
+        "themeKey": "dark-colorblind"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "dark-dimmed-high-contrast.css",
+        "hasDarkMedia": false,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "scoped",
+        "themeKey": "dark-dimmed-high-contrast"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "dark-dimmed.css",
+        "hasDarkMedia": false,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "scoped",
+        "themeKey": "dark-dimmed"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "dark-high-contrast.css",
+        "hasDarkMedia": false,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "scoped",
+        "themeKey": "dark-high-contrast"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "dark-tritanopia-high-contrast.css",
+        "hasDarkMedia": false,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "scoped",
+        "themeKey": "dark-tritanopia-high-contrast"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "dark-tritanopia.css",
+        "hasDarkMedia": false,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "scoped",
+        "themeKey": "dark-tritanopia"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "dark.css",
+        "hasDarkMedia": false,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "scoped",
+        "themeKey": "dark"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "light-colorblind-high-contrast.css",
+        "hasDarkMedia": false,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "scoped",
+        "themeKey": "light-colorblind-high-contrast"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "light-colorblind.css",
+        "hasDarkMedia": false,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "scoped",
+        "themeKey": "light-colorblind"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "light-high-contrast.css",
+        "hasDarkMedia": false,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "scoped",
+        "themeKey": "light-high-contrast"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "light-tritanopia-high-contrast.css",
+        "hasDarkMedia": false,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "scoped",
+        "themeKey": "light-tritanopia-high-contrast"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "light-tritanopia.css",
+        "hasDarkMedia": false,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "scoped",
+        "themeKey": "light-tritanopia"
+      },
+      {
+        "darkThemeKey": null,
+        "fileName": "light.css",
+        "hasDarkMedia": false,
+        "kind": "theme",
+        "lightThemeKey": null,
+        "scope": "scoped",
+        "themeKey": "light"
+      },
+      {
+        "darkThemeKey": "dark",
+        "fileName": "auto.css",
+        "hasDarkMedia": true,
+        "kind": "auto",
+        "lightThemeKey": "light",
+        "scope": "scoped",
+        "themeKey": null
+      },
+      {
+        "darkThemeKey": "dark-colorblind",
+        "fileName": "auto-colorblind.css",
+        "hasDarkMedia": true,
+        "kind": "auto",
+        "lightThemeKey": "light-colorblind",
+        "scope": "scoped",
+        "themeKey": null
+      },
+      {
+        "darkThemeKey": "dark-high-contrast",
+        "fileName": "auto-high-contrast.css",
+        "hasDarkMedia": true,
+        "kind": "auto",
+        "lightThemeKey": "light-high-contrast",
+        "scope": "scoped",
+        "themeKey": null
+      },
+      {
+        "darkThemeKey": "dark-tritanopia",
+        "fileName": "auto-tritanopia.css",
+        "hasDarkMedia": true,
+        "kind": "auto",
+        "lightThemeKey": "light-tritanopia",
+        "scope": "scoped",
+        "themeKey": null
+      },
+      {
+        "darkThemeKey": "dark-colorblind-high-contrast",
+        "fileName": "auto-colorblind-high-contrast.css",
+        "hasDarkMedia": true,
+        "kind": "auto",
+        "lightThemeKey": "light-colorblind-high-contrast",
+        "scope": "scoped",
+        "themeKey": null
+      },
+      {
+        "darkThemeKey": "dark-tritanopia-high-contrast",
+        "fileName": "auto-tritanopia-high-contrast.css",
+        "hasDarkMedia": true,
+        "kind": "auto",
+        "lightThemeKey": "light-tritanopia-high-contrast",
+        "scope": "scoped",
+        "themeKey": null
+      },
+      {
+        "darkThemeKey": "dark-dimmed",
+        "fileName": "auto-dimmed.css",
+        "hasDarkMedia": true,
+        "kind": "auto",
+        "lightThemeKey": "light",
+        "scope": "scoped",
+        "themeKey": null
+      },
+      {
+        "darkThemeKey": "dark-dimmed-high-contrast",
+        "fileName": "auto-dimmed-high-contrast.css",
+        "hasDarkMedia": true,
+        "kind": "auto",
+        "lightThemeKey": "light-high-contrast",
+        "scope": "scoped",
+        "themeKey": null
+      }
+    ]
+  },
   "summary": {
-    "slimBaseTokenCount": 5,
+    "slimBaseTokenCount": 6,
     "themeReports": [
       {
         "bundleComparison": {
@@ -278,12 +680,14 @@
       "--color-danger-fg",
       "--color-fg-default",
       "--color-fg-muted",
-      "--color-neutral-muted",
-      "--fontStack-sansSerif"
+      "--color-neutral-muted"
     ]
   },
   "tokenScope": {
     "base": {
+      "functional-typography": [
+        "--fontStack-sansSerif"
+      ],
       "size": [
         "--base-size-16",
         "--base-size-24",
@@ -308,7 +712,8 @@
       "--borderColor-muted",
       "--fgColor-danger",
       "--fgColor-default",
-      "--fgColor-muted"
+      "--fgColor-muted",
+      "--fontStack-sansSerif"
     ],
     "theme": [
       "--bgColor-default",

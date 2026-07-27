@@ -1,5 +1,6 @@
 import { buildConfig, cwd } from './build-config.mjs'
 import { createPrimerMarkdownPaths } from './utils/primer-markdown-paths.mjs'
+import { createPublishedArtifacts } from './utils/primer-markdown-published.mjs'
 import {
   buildMarkdownCss,
   readBaseArtifacts,
@@ -43,11 +44,18 @@ async function main() {
     themeArtifacts,
     tokenScope,
   })
+  // Publish from the slimmed token set so the npm-facing files stay aligned with validation.
+  const publishedArtifacts = createPublishedArtifacts({
+    autoThemePairs: paths.hooks.publishedAutoThemePairs,
+    baseArtifacts: slimArtifacts.baseArtifacts,
+    markdownCss,
+    themeArtifacts: slimArtifacts.themeArtifacts,
+  })
 
   assertNoMissingRequiredTokenNames(tokenScope)
 
   await writePublishedArtifacts({
-    bundles: slimArtifacts.bundles,
+    publishedArtifacts,
     paths,
   })
 }

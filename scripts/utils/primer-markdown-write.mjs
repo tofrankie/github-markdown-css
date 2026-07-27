@@ -5,7 +5,9 @@ import { ensureTrailingNewline } from './primer-markdown-tokens.mjs'
 
 export async function preparePublishedOutputDirectory(paths) {
   await rm(paths.dist.dir, { force: true, recursive: true })
-  await mkdir(paths.dist.dir, { recursive: true })
+  await Promise.all(
+    [paths.dist.dir, paths.dist.primerDir].map(path => mkdir(path, { recursive: true }))
+  )
 }
 
 export async function prepareArtifactsOutputDirectories(paths) {
@@ -15,6 +17,10 @@ export async function prepareArtifactsOutputDirectories(paths) {
       paths.artifacts.full.baseDir,
       paths.artifacts.full.bundlesDir,
       paths.artifacts.full.themesDir,
+      paths.artifacts.published.primerDir,
+      paths.artifacts.published.scopedDir,
+      paths.artifacts.reports.primerDir,
+      paths.artifacts.reports.scopedDir,
       paths.artifacts.slim.baseDir,
       paths.artifacts.slim.bundlesDir,
       paths.artifacts.slim.themesDir,
@@ -30,6 +36,10 @@ export async function prepareArtifactsOutputDirectories(paths) {
       paths.artifacts.full.bundlesDir,
       paths.artifacts.full.markdownDir,
       paths.artifacts.full.themesDir,
+      paths.artifacts.published.primerDir,
+      paths.artifacts.published.scopedDir,
+      paths.artifacts.reports.primerDir,
+      paths.artifacts.reports.scopedDir,
       paths.artifacts.slim.baseDir,
       paths.artifacts.slim.bundlesDir,
       paths.artifacts.slim.themesDir,
@@ -39,12 +49,18 @@ export async function prepareArtifactsOutputDirectories(paths) {
   )
 }
 
-export async function writePublishedArtifacts({ bundles, paths }) {
-  await writeFile(paths.dist.indexPath, 'export {}\n')
+export async function writePublishedArtifacts({ artifactRoot, paths, publishedArtifacts }) {
+  const outputRoot = artifactRoot ?? paths.dist
 
-  for (const bundle of bundles) {
-    await writeFile(join(paths.dist.dir, bundle.fileName), bundle.css)
-  }
+  await writeFile(paths.dist.indexPath, 'export {}\n')
+  await writeBundleArtifacts(outputRoot.scopedDir ?? outputRoot.dir, [
+    ...publishedArtifacts.scoped.themes,
+    ...publishedArtifacts.scoped.autos,
+  ])
+  await writeBundleArtifacts(outputRoot.primerDir, [
+    ...publishedArtifacts.primer.themes,
+    ...publishedArtifacts.primer.autos,
+  ])
 }
 
 export async function writeFullArtifacts({
@@ -70,6 +86,7 @@ export async function writeValidationArtifacts({
   fixturesHtml,
   markdownTokenNames,
   paths,
+  publishedArtifacts,
   report,
   themeArtifacts,
 }) {
@@ -108,6 +125,35 @@ export async function writeValidationArtifacts({
       })
     )
   }
+
+  for (const bundle of [...publishedArtifacts.primer.themes, ...publishedArtifacts.primer.autos]) {
+    const cssPath = join(paths.artifacts.published.primerDir, bundle.fileName)
+    const outputPath = join(paths.artifacts.reports.primerDir, `${bundle.fileName}.html`)
+
+    await writeFile(
+      outputPath,
+      buildFixtureDocument({
+        attributes: buildPrimerFixtureAttributes(bundle),
+        bodyHtml: fixturesHtml,
+        cssHref: relative(dirname(outputPath), cssPath),
+        title: `Primer published fixture - ${bundle.fileName}`,
+      })
+    )
+  }
+
+  for (const bundle of [...publishedArtifacts.scoped.themes, ...publishedArtifacts.scoped.autos]) {
+    const cssPath = join(paths.artifacts.published.scopedDir, bundle.fileName)
+    const outputPath = join(paths.artifacts.reports.scopedDir, `${bundle.fileName}.html`)
+
+    await writeFile(
+      outputPath,
+      buildFixtureDocument({
+        bodyHtml: fixturesHtml,
+        cssHref: relative(dirname(outputPath), cssPath),
+        title: `Scoped published fixture - ${bundle.fileName}`,
+      })
+    )
+  }
 }
 
 async function writeCssArtifacts(outputDir, artifacts) {
@@ -122,7 +168,7 @@ async function writeBundleArtifacts(outputDir, bundles) {
   }
 }
 
-function buildFixtureDocument({ bodyHtml, cssHref, title }) {
+function buildFixtureDocument({ attributes = '', bodyHtml, cssHref, title }) {
   return ensureTrailingNewline(`<!doctype html>
 <html lang="en">
   <head>
@@ -148,12 +194,20 @@ function buildFixtureDocument({ bodyHtml, cssHref, title }) {
     </style>
   </head>
   <body>
-    <main class="canvas">
+    <main class="canvas"${attributes}>
 ${indentHtml(bodyHtml, 6)}
     </main>
   </body>
 </html>
 `)
+}
+
+function buildPrimerFixtureAttributes(bundle) {
+  if (bundle.kind === 'auto') {
+    return ` data-color-mode="auto" data-light-theme="${bundle.lightThemeSelectorKey}" data-dark-theme="${bundle.darkThemeSelectorKey}"`
+  }
+
+  return ` data-color-mode="light" data-light-theme="${bundle.lightThemeSelectorKey}" data-dark-theme="${bundle.darkThemeSelectorKey}"`
 }
 
 function indentHtml(html, spaces) {

@@ -12,8 +12,9 @@ pnpm build
 
 `build` 只生成最终发布产物：
 
-- `dist/`：只保留最终 npm 发布产物，例如 `dist/github-markdown-light.css`
-- 这些发布文件使用 slim 后的 `base + theme + github-markdown` 组合结果，而不是 full bundle
+- `dist/`：输出 scoped 最终产物，例如 `dist/light.css`、`dist/auto.css`、`dist/auto-dimmed.css`
+- `dist/primer/`：输出保留 Primer selector 语义的最终产物，例如 `dist/primer/light.css`、`dist/primer/auto.css`、`dist/primer/auto-dimmed.css`
+- 这些发布文件都使用 slim 后的 `base + theme + github-markdown` 组合结果，而不是 full bundle
 
 ## 核心流程
 
@@ -25,7 +26,7 @@ pnpm check:css
 
 它按顺序执行：
 
-1. `pnpm build`：生成 slim 后的最终发布产物到 `dist/github-markdown-*.css`
+1. `pnpm build`：生成 slim 后的最终发布产物，分别写出 `dist/*.css` 与 `dist/primer/*.css`
 2. `pnpm build:artifacts`：生成 full/slim 中间资产与验证资产到 `artifacts/`
 3. `pnpm validate:css`：校验 `artifacts/**` 中的 token 覆盖、悬空引用和 full/slim 一致性
 
@@ -40,20 +41,26 @@ artifacts/
     bundles/
     markdown/
     themes/
+  published/
+    primer/
+    scoped/
   slim/
     base/
     bundles/
     themes/
   reports/
     full/
+    primer/
+    scoped/
     slim/
     markdown-token-names.json
     report.json
 ```
 
 - `full/`：未瘦身的 base、theme、markdown 与 bundle 对照资产
+- `published/`：按最终发布结构写出的 Primer scope 与 scoped scope 产物副本
 - `slim/`：基于 markdown 实际 token 依赖生成的瘦身 base、theme 与 bundle 资产
-- `reports/`：验证报告、markdown token 名单，以及 full/slim 对照 HTML 页面
+- `reports/`：验证报告、markdown token 名单、full/slim 对照 HTML 页面，以及最终发布产物的 Primer/scoped 预览页面
 
 `scripts/fixtures/markdown-fixture.html` 是源码级 fixture 模板输入，不放在 `artifacts/` 里。
 
@@ -65,10 +72,11 @@ artifacts/
 2. 从 markdown CSS 提取全部 `var(--token)` 引用
 3. 合并自定义 token JSON 钩子中的额外 token 名称，并统一去重
 4. 按来源分桶：
+   - `--fontStack-*`、`--text-*` 等功能排版 token 来自 `@primer/primitives/dist/css/functional/typography/typography.css`
    - `--base-size-*` 来自 `@primer/primitives/dist/css/base/size/size.css`
    - `--base-text-*` 来自 `@primer/primitives/dist/css/base/typography/typography.css`
    - 纳入本次范围的语义 token 来自 `@primer/primitives/dist/css/functional/themes/*.css`
-   - `--fontStack-sansSerif` 等自定义来源可通过额外 SCSS 钩子补充
+   - 仍未覆盖的个别来源可通过额外 SCSS 钩子补充
 5. 在同一来源文件内继续追踪 token 依赖闭包
 6. 闭包收敛后输出 slim 资产
 
@@ -86,7 +94,7 @@ export const buildConfig = {
 ```
 
 - `extraMarkdownTokenJsonPaths`：当 markdown 文本提取遗漏某些仍需保留的 token 时，在这里追加一个或多个 JSON 文件路径
-- `extraScssSourcePaths`：当 `--fontStack-sansSerif` 等 token 来自非 Primer 官方 CSS 时，在这里追加一个或多个自定义 SCSS 文件路径
+- `extraScssSourcePaths`：当仍有未被 Primer 官方 CSS 覆盖的 token 来源时，在这里追加一个或多个自定义 SCSS 文件路径
 
 额外 token JSON 支持数组格式：
 
@@ -109,9 +117,13 @@ export const buildConfig = {
 - slim base/theme 是否覆盖 markdown 仍然需要的 in-scope token
 - slim base/theme 是否存在指向同源已删除 token 的悬空引用
 - slim 与 full 中关键 token 的规范化值是否一致
+- 所有 `dist/auto*.css` 与 `dist/primer/auto*.css` 是否都保留 `prefers-color-scheme: dark` 分支
+- scoped 单主题产物是否避免重复复制 `prefers-color-scheme: dark` token 块
 - full/slim 对照 HTML 是否能引用对应 bundle，便于人工检查渲染差异
 
 对照页面位于：
 
 - `artifacts/reports/full/*.html`
+- `artifacts/reports/primer/*.html`
+- `artifacts/reports/scoped/*.html`
 - `artifacts/reports/slim/*.html`

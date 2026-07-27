@@ -22,6 +22,12 @@ export async function buildMarkdownCss(paths) {
 export async function readBaseArtifacts(paths) {
   const sources = [
     {
+      fileName: 'functional-typography.css',
+      key: 'functional-typography',
+      sourcePath: paths.source.functionalTypographySourcePath,
+      sourceType: 'css',
+    },
+    {
       fileName: 'size.css',
       key: 'size',
       sourcePath: paths.source.sizeSourcePath,

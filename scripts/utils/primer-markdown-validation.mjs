@@ -15,6 +15,7 @@ export function buildValidationReport({
   fullBundles,
   markdownTokenNames,
   paths,
+  publishedArtifacts,
   slimArtifacts,
   themeArtifacts,
   tokenScope,
@@ -78,6 +79,7 @@ export function buildValidationReport({
     extraMarkdownTokenJsonPaths: paths.hooks.extraMarkdownTokenJsonPaths,
     extraScssSourcePaths: paths.hooks.extraScssSourcePaths,
     markdownTokenNames: [...markdownTokenNames].sort(),
+    publishedOutputs: createPublishedOutputReport(publishedArtifacts),
     summary: {
       slimBaseTokenCount: slimArtifacts.baseArtifacts.reduce(
         (count, artifact) => count + (artifact.retainedTokenNames?.size ?? 0),
@@ -125,6 +127,8 @@ export function assertValidationReport({ markdownTokenNames, report }) {
       throw new Error(`Unexpected unresolved optional token: ${tokenName}`)
     }
   }
+
+  assertPublishedOutputReport(report.publishedOutputs)
 }
 
 function buildCoverageReport({ artifacts, requiredTokenNames }) {
@@ -242,5 +246,51 @@ function validateBundleComparison(report, themeKey) {
       .join(', ')
 
     throw new Error(`Slim bundle for ${themeKey} has mismatched token values: ${mismatchMessage}`)
+  }
+}
+
+function createPublishedOutputReport(publishedArtifacts) {
+  return {
+    primer: [...publishedArtifacts.primer.themes, ...publishedArtifacts.primer.autos].map(bundle =>
+      serializePublishedBundle(bundle)
+    ),
+    scoped: [...publishedArtifacts.scoped.themes, ...publishedArtifacts.scoped.autos].map(bundle =>
+      serializePublishedBundle(bundle)
+    ),
+  }
+}
+
+function serializePublishedBundle(bundle) {
+  return {
+    darkThemeKey: bundle.darkThemeKey ?? null,
+    fileName: bundle.fileName,
+    hasDarkMedia: bundle.css.includes('@media (prefers-color-scheme: dark)'),
+    kind: bundle.kind,
+    lightThemeKey: bundle.lightThemeKey ?? null,
+    scope: bundle.scope,
+    themeKey: bundle.themeKey ?? null,
+  }
+}
+
+function assertPublishedOutputReport(report) {
+  const primerAuto = report.primer.find(bundle => bundle.fileName === 'auto.css')
+  const scopedAuto = report.scoped.find(bundle => bundle.fileName === 'auto.css')
+
+  if (!primerAuto || !scopedAuto) {
+    throw new Error('Published output report is missing auto.css for primer or scoped scope')
+  }
+
+  if (!primerAuto.hasDarkMedia || !scopedAuto.hasDarkMedia) {
+    throw new Error('auto.css must retain prefers-color-scheme dark handling in both scopes')
+  }
+
+  const scopedThemeWithoutMedia = report.scoped
+    .filter(bundle => bundle.kind === 'theme')
+    .every(bundle => !bundle.hasDarkMedia)
+
+  if (!scopedThemeWithoutMedia) {
+    throw new Error(
+      'Scoped single-theme bundles should not duplicate prefers-color-scheme dark blocks'
+    )
   }
 }

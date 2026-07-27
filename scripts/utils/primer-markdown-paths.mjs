@@ -12,10 +12,16 @@ export function createPrimerMarkdownPaths({ cwd, buildConfig }) {
         markdownDir: resolve(artifactsRootDir, 'full/markdown'),
         themesDir: resolve(artifactsRootDir, 'full/themes'),
       },
+      published: {
+        primerDir: resolve(artifactsRootDir, 'published/primer'),
+        scopedDir: resolve(artifactsRootDir, 'published/scoped'),
+      },
       reports: {
         fullDir: resolve(artifactsRootDir, 'reports/full'),
         markdownTokenNamesPath: resolve(artifactsRootDir, 'reports/markdown-token-names.json'),
+        primerDir: resolve(artifactsRootDir, 'reports/primer'),
         reportPath: resolve(artifactsRootDir, 'reports/report.json'),
+        scopedDir: resolve(artifactsRootDir, 'reports/scoped'),
         slimDir: resolve(artifactsRootDir, 'reports/slim'),
       },
       rootDir: artifactsRootDir,
@@ -29,12 +35,19 @@ export function createPrimerMarkdownPaths({ cwd, buildConfig }) {
     dist: {
       dir: distDir,
       indexPath: resolve(distDir, 'index.js'),
+      primerDir: resolve(distDir, 'primer'),
     },
     hooks: {
       extraMarkdownTokenJsonPaths: [...buildConfig.extraMarkdownTokenJsonPaths],
       extraScssSourcePaths: [...buildConfig.extraScssSourcePaths],
+      publishedAutoThemePairs: [...buildConfig.publishedAutoThemePairs],
+      themeDescriptions: { ...buildConfig.themeDescriptions },
     },
     source: {
+      functionalTypographySourcePath: resolve(
+        cwd,
+        'node_modules/@primer/primitives/dist/css/functional/typography/typography.css'
+      ),
       fixtureTemplatePath: resolve(cwd, 'scripts/fixtures/markdown-fixture.html'),
       markdownEntry: resolve(cwd, 'node_modules/@primer/css/markdown/index.scss'),
       sizeSourcePath: resolve(cwd, 'node_modules/@primer/primitives/dist/css/base/size/size.css'),

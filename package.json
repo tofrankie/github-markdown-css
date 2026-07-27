@@ -11,7 +11,8 @@
   "keywords": [],
   "exports": {
     ".": "./dist/index.js",
-    "./*.css": "./dist/*.css"
+    "./*.css": "./dist/*.css",
+    "./primer/*.css": "./dist/primer/*.css"
   },
   "files": [
     "dist"

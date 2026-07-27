@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises'
 
 import { buildConfig, cwd } from './build-config.mjs'
 import { createPrimerMarkdownPaths } from './utils/primer-markdown-paths.mjs'
+import { createPublishedArtifacts } from './utils/primer-markdown-published.mjs'
 import {
   buildMarkdownCss,
   readBaseArtifacts,
@@ -21,6 +22,7 @@ import {
 import {
   prepareArtifactsOutputDirectories,
   writeFullArtifacts,
+  writePublishedArtifacts,
   writeSlimArtifacts,
   writeValidationArtifacts,
 } from './utils/primer-markdown-write.mjs'
@@ -60,11 +62,20 @@ async function main() {
     themeArtifacts,
     tokenScope,
   })
+  // Reuse the same published-artifact assembly during artifact builds so preview fixtures
+  // and validation reflect the exact npm-facing output shape.
+  const publishedArtifacts = createPublishedArtifacts({
+    autoThemePairs: paths.hooks.publishedAutoThemePairs,
+    baseArtifacts: slimArtifacts.baseArtifacts,
+    markdownCss,
+    themeArtifacts: slimArtifacts.themeArtifacts,
+  })
   const validationReport = buildValidationReport({
     baseArtifacts,
     fullBundles,
     markdownTokenNames,
     paths,
+    publishedArtifacts,
     slimArtifacts,
     themeArtifacts,
     tokenScope,
@@ -78,10 +89,16 @@ async function main() {
     themeArtifacts,
   })
   await writeSlimArtifacts({ paths, slimArtifacts })
+  await writePublishedArtifacts({
+    artifactRoot: paths.artifacts.published,
+    publishedArtifacts,
+    paths,
+  })
   await writeValidationArtifacts({
     fixturesHtml,
     markdownTokenNames,
     paths,
+    publishedArtifacts,
     report: validationReport,
     themeArtifacts,
   })
