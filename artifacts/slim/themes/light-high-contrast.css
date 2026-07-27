@@ -1,0 +1,29 @@
+/**
+ * @spec See /DESIGN_TOKENS_SPEC.md for naming logic and semantic pairings.
+ * @rule Never use raw values (hex/px). Use semantic tokens ONLY.
+ */
+[data-color-mode="light"][data-light-theme="light_high_contrast"],
+[data-color-mode="auto"][data-light-theme="light_high_contrast"] {
+  --fgColor-danger: #960d1e; /** Danger text for errors and destructive actions */
+  --bgColor-muted: #e6eaef; /** Muted background for secondary content areas and subtle grouping */
+  --bgColor-neutral-muted: #e0e6eb; /** Subtle neutral background for tags, labels, and secondary UI elements */
+  --borderColor-accent-emphasis: #0349b4; /** Strong accent border for selected or focused elements */
+  --borderColor-default: #454c54; /** Default border color for most UI elements */
+  --fgColor-muted: #454c54; /** Muted text for secondary content and less important information */
+  --bgColor-default: #ffffff; /** Default background color for pages and main content areas */
+  --borderColor-muted: var(--borderColor-default); /** Subtle border for secondary elements and light separators */
+  --fgColor-default: #010409; /** Default text color for primary content and headings */
+}
+@media (prefers-color-scheme: dark) {
+  [data-color-mode][data-color-mode="auto"][data-dark-theme="light_high_contrast"] {
+    --fgColor-danger: #960d1e; /** Danger text for errors and destructive actions */
+    --bgColor-muted: #e6eaef; /** Muted background for secondary content areas and subtle grouping */
+    --bgColor-neutral-muted: #e0e6eb; /** Subtle neutral background for tags, labels, and secondary UI elements */
+    --borderColor-accent-emphasis: #0349b4; /** Strong accent border for selected or focused elements */
+    --borderColor-default: #454c54; /** Default border color for most UI elements */
+    --fgColor-muted: #454c54; /** Muted text for secondary content and less important information */
+    --bgColor-default: #ffffff; /** Default background color for pages and main content areas */
+    --borderColor-muted: var(--borderColor-default); /** Subtle border for secondary elements and light separators */
+    --fgColor-default: #010409; /** Default text color for primary content and headings */
+  }
+}

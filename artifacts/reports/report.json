@@ -1,0 +1,325 @@
+{
+  "extraMarkdownTokenJsonPaths": [],
+  "extraScssSourcePaths": [],
+  "markdownTokenNames": [
+    "--base-size-16",
+    "--base-size-24",
+    "--base-size-4",
+    "--base-size-8",
+    "--base-text-weight-semibold",
+    "--bgColor-default",
+    "--bgColor-muted",
+    "--bgColor-neutral-muted",
+    "--borderColor-accent-emphasis",
+    "--borderColor-default",
+    "--borderColor-muted",
+    "--color-accent-emphasis",
+    "--color-border-default",
+    "--color-border-muted",
+    "--color-canvas-default",
+    "--color-canvas-subtle",
+    "--color-danger-fg",
+    "--color-fg-default",
+    "--color-fg-muted",
+    "--color-neutral-muted",
+    "--fgColor-danger",
+    "--fgColor-default",
+    "--fgColor-muted",
+    "--fontStack-sansSerif"
+  ],
+  "summary": {
+    "slimBaseTokenCount": 5,
+    "themeReports": [
+      {
+        "bundleComparison": {
+          "mismatchedValues": [],
+          "missingFromSlim": []
+        },
+        "fullCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "key": "dark-colorblind-high-contrast",
+        "slimCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "slimTokenCount": 9,
+        "totalThemeTokenCount": 959
+      },
+      {
+        "bundleComparison": {
+          "mismatchedValues": [],
+          "missingFromSlim": []
+        },
+        "fullCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "key": "dark-colorblind",
+        "slimCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "slimTokenCount": 9,
+        "totalThemeTokenCount": 959
+      },
+      {
+        "bundleComparison": {
+          "mismatchedValues": [],
+          "missingFromSlim": []
+        },
+        "fullCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "key": "dark-dimmed-high-contrast",
+        "slimCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "slimTokenCount": 9,
+        "totalThemeTokenCount": 959
+      },
+      {
+        "bundleComparison": {
+          "mismatchedValues": [],
+          "missingFromSlim": []
+        },
+        "fullCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "key": "dark-dimmed",
+        "slimCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "slimTokenCount": 9,
+        "totalThemeTokenCount": 959
+      },
+      {
+        "bundleComparison": {
+          "mismatchedValues": [],
+          "missingFromSlim": []
+        },
+        "fullCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "key": "dark-high-contrast",
+        "slimCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "slimTokenCount": 9,
+        "totalThemeTokenCount": 959
+      },
+      {
+        "bundleComparison": {
+          "mismatchedValues": [],
+          "missingFromSlim": []
+        },
+        "fullCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "key": "dark-tritanopia-high-contrast",
+        "slimCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "slimTokenCount": 9,
+        "totalThemeTokenCount": 959
+      },
+      {
+        "bundleComparison": {
+          "mismatchedValues": [],
+          "missingFromSlim": []
+        },
+        "fullCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "key": "dark-tritanopia",
+        "slimCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "slimTokenCount": 9,
+        "totalThemeTokenCount": 959
+      },
+      {
+        "bundleComparison": {
+          "mismatchedValues": [],
+          "missingFromSlim": []
+        },
+        "fullCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "key": "dark",
+        "slimCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "slimTokenCount": 9,
+        "totalThemeTokenCount": 959
+      },
+      {
+        "bundleComparison": {
+          "mismatchedValues": [],
+          "missingFromSlim": []
+        },
+        "fullCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "key": "light-colorblind-high-contrast",
+        "slimCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "slimTokenCount": 9,
+        "totalThemeTokenCount": 959
+      },
+      {
+        "bundleComparison": {
+          "mismatchedValues": [],
+          "missingFromSlim": []
+        },
+        "fullCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "key": "light-colorblind",
+        "slimCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "slimTokenCount": 9,
+        "totalThemeTokenCount": 959
+      },
+      {
+        "bundleComparison": {
+          "mismatchedValues": [],
+          "missingFromSlim": []
+        },
+        "fullCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "key": "light-high-contrast",
+        "slimCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "slimTokenCount": 9,
+        "totalThemeTokenCount": 959
+      },
+      {
+        "bundleComparison": {
+          "mismatchedValues": [],
+          "missingFromSlim": []
+        },
+        "fullCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "key": "light-tritanopia-high-contrast",
+        "slimCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "slimTokenCount": 9,
+        "totalThemeTokenCount": 959
+      },
+      {
+        "bundleComparison": {
+          "mismatchedValues": [],
+          "missingFromSlim": []
+        },
+        "fullCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "key": "light-tritanopia",
+        "slimCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "slimTokenCount": 9,
+        "totalThemeTokenCount": 959
+      },
+      {
+        "bundleComparison": {
+          "mismatchedValues": [],
+          "missingFromSlim": []
+        },
+        "fullCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "key": "light",
+        "slimCoverage": {
+          "danglingReferences": [],
+          "missingTokenNames": []
+        },
+        "slimTokenCount": 9,
+        "totalThemeTokenCount": 959
+      }
+    ],
+    "unresolvedOptionalTokenNames": [
+      "--color-accent-emphasis",
+      "--color-border-default",
+      "--color-border-muted",
+      "--color-canvas-default",
+      "--color-canvas-subtle",
+      "--color-danger-fg",
+      "--color-fg-default",
+      "--color-fg-muted",
+      "--color-neutral-muted",
+      "--fontStack-sansSerif"
+    ]
+  },
+  "tokenScope": {
+    "base": {
+      "size": [
+        "--base-size-16",
+        "--base-size-24",
+        "--base-size-4",
+        "--base-size-8"
+      ],
+      "typography": [
+        "--base-text-weight-semibold"
+      ]
+    },
+    "required": [
+      "--base-size-16",
+      "--base-size-24",
+      "--base-size-4",
+      "--base-size-8",
+      "--base-text-weight-semibold",
+      "--bgColor-default",
+      "--bgColor-muted",
+      "--bgColor-neutral-muted",
+      "--borderColor-accent-emphasis",
+      "--borderColor-default",
+      "--borderColor-muted",
+      "--fgColor-danger",
+      "--fgColor-default",
+      "--fgColor-muted"
+    ],
+    "theme": [
+      "--bgColor-default",
+      "--bgColor-muted",
+      "--bgColor-neutral-muted",
+      "--borderColor-accent-emphasis",
+      "--borderColor-default",
+      "--borderColor-muted",
+      "--fgColor-danger",
+      "--fgColor-default",
+      "--fgColor-muted"
+    ]
+  }
+}

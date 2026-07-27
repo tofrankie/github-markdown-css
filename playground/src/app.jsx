@@ -12,8 +12,7 @@ import { useState } from 'react'
 import markdownStr from '../example.md?raw'
 import 'bytemd/dist/index.css'
 import 'bytemd-plugin-github-alerts/index.css'
-import '@tofrankie/github-markdown-css/themes/light.css'
-import '@tofrankie/github-markdown-css/github-markdown.css'
+import '@tofrankie/github-markdown-css/github-markdown-light.css'
 import '@tofrankie/bytemd-plugin-highlight/styles/github.css'
 
 const plugins = [

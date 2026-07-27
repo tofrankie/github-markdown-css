@@ -1,5 +1,6 @@
 # Dependency
 node_modules/
+dist/
 .pnpm-store/
 
 # Logs

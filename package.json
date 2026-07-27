@@ -11,22 +11,23 @@
   "keywords": [],
   "exports": {
     ".": "./dist/index.js",
-    "./github-markdown.css": "./dist/github-markdown.css",
-    "./themes/*": "./dist/themes/*",
-    "./bundles/*": "./dist/bundles/*"
+    "./*.css": "./dist/*.css"
   },
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "node ./scripts/build-css.mjs",
+    "build:artifacts": "node ./scripts/build-artifacts.mjs",
+    "check:css": "run-s build build:artifacts validate:css",
+    "validate:css": "node ./scripts/validate-css.mjs",
     "lint": "run-s lint:prettier lint:eslint lint:stylelint typecheck",
     "lint:eslint": "eslint . --cache --fix",
     "lint:prettier": "prettier . --cache --write --log-level silent",
     "lint:stylelint": "stylelint '**/*.{css,scss}' --cache --fix --ignore-path .gitignore",
     "typecheck": "tsc --noEmit",
     "publint": "publint",
-    "prepublishOnly": "run-s lint build",
+    "prepublishOnly": "run-s lint build build:artifacts validate:css",
     "prepare": "simple-git-hooks",
     "lint-staged": "lint-staged"
   },
