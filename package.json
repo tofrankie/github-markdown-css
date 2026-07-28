@@ -32,6 +32,9 @@
     "./*.css": "./dist/*.css",
     "./primer/*.css": "./dist/primer/*.css"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "CHANGELOG.md",
     "dist"
@@ -42,7 +45,7 @@
     "build:artifacts": "node ./scripts/build-artifacts.js",
     "check:css": "run-s build build:artifacts validate:css",
     "validate:css": "node ./scripts/validate-css.js",
-    "lint": "run-s lint:prettier lint:eslint lint:stylelint",
+    "lint": "run-s lint:eslint lint:prettier lint:stylelint",
     "lint:eslint": "eslint . --cache --fix",
     "lint:prettier": "prettier . --cache --write --log-level silent",
     "lint:stylelint": "stylelint '**/*.{css,scss}' --cache --fix --ignore-path .gitignore",
