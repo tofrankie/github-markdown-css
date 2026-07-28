@@ -32,6 +32,16 @@ pnpm check:css
 
 发布前必须保证这条流水线通过。
 
+## Development
+
+本地开发时可以运行：
+
+```bash
+pnpm dev
+```
+
+该命令会先执行一次构建，然后监听 `src/primer-markdown-extended.scss` 与 `scripts/build-config.mjs` 的变更，自动重新生成 `dist/`。这意味着修改扩展入口或构建配置时，不需要手动重复执行 `pnpm build`。
+
 ## 目录结构
 
 ```text
@@ -68,7 +78,7 @@ artifacts/
 
 瘦身不是按文件或字符串粗暴删除 token，而是从 markdown 的真实消费反推需要保留的最小集合：
 
-1. 编译 `@primer/css/markdown/index.scss` 得到 markdown CSS
+1. 编译 `src/primer-markdown-extended.scss` 得到 markdown CSS
 2. 从 markdown CSS 提取全部 `var(--token)` 引用
 3. 合并自定义 token JSON 钩子中的额外 token 名称，并统一去重
 4. 按来源分桶：
@@ -81,6 +91,14 @@ artifacts/
 6. 闭包收敛后输出 slim 资产
 
 这样可以避免只保留 markdown 直接引用 token 时遗漏二级、三级同源依赖。
+
+## Markdown 扩展入口
+
+markdown 样式的源码入口固定为 [src/primer-markdown-extended.scss](/Users/frankie/Web/Git/github-markdown-css/src/primer-markdown-extended.scss:1)。
+
+- 该文件先复用上游 `@primer/css/markdown/index.scss`
+- 然后按需承载仓库内的 markdown token 扩展或 `.markdown-body` 局部样式扩展
+- 不用于引入全局 reset、页面级基础样式，尤其不要把 `@primer/css/base/index.scss` 这类整包基础样式直接并入这里
 
 ## 自定义钩子
 
@@ -95,6 +113,13 @@ export const buildConfig = {
 
 - `extraMarkdownTokenJsonPaths`：当 markdown 文本提取遗漏某些仍需保留的 token 时，在这里追加一个或多个 JSON 文件路径
 - `extraScssSourcePaths`：当仍有未被 Primer 官方 CSS 覆盖的 token 来源时，在这里追加一个或多个自定义 SCSS 文件路径
+
+这组钩子和 `src/primer-markdown-extended.scss` 的职责不同：
+
+- `src/primer-markdown-extended.scss`：markdown 构建入口，负责“上游 markdown 源 + 仓库内 markdown 扩展”
+- `extraScssSourcePaths`：额外 token 来源钩子，负责补充 markdown 依赖但不在官方 CSS 覆盖范围内的 token 定义
+
+当前仓库已经通过 `extraScssSourcePaths` 接入 `node_modules/@primer/css/primitives/temp-typography-tokens.scss`，用于补充 `--h1-size`、`--h2-size`、`--h3-size`、`--body-font-size`、`--font-size-small` 等 markdown 和 `typography-base.scss` 会消费的临时排版 token。
 
 额外 token JSON 支持数组格式：
 

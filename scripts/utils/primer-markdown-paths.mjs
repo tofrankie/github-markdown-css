@@ -48,8 +48,9 @@ export function createPrimerMarkdownPaths({ cwd, buildConfig }) {
         cwd,
         'node_modules/@primer/primitives/dist/css/functional/typography/typography.css'
       ),
+      buildConfigPath: resolve(cwd, 'scripts/build-config.mjs'),
       fixtureTemplatePath: resolve(cwd, 'scripts/fixtures/markdown-fixture.html'),
-      markdownEntry: resolve(cwd, 'node_modules/@primer/css/markdown/index.scss'),
+      markdownEntryPath: resolve(cwd, 'src/primer-markdown-extended.scss'),
       sizeSourcePath: resolve(cwd, 'node_modules/@primer/primitives/dist/css/base/size/size.css'),
       themesSourceDir: resolve(cwd, 'node_modules/@primer/primitives/dist/css/functional/themes'),
       typographySourcePath: resolve(

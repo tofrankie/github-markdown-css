@@ -9,7 +9,7 @@ import {
 } from './primer-markdown-tokens.mjs'
 
 export async function buildMarkdownCss(paths) {
-  const markdownResult = await compileAsync(paths.source.markdownEntry, {
+  const markdownResult = await compileAsync(paths.source.markdownEntryPath, {
     loadPaths: [join(paths.cwd, 'node_modules')],
     quietDeps: true,
     silenceDeprecations: ['global-builtin', 'import'],

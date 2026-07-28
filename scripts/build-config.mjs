@@ -61,8 +61,8 @@ export const themeDescriptions = {
 export const buildConfig = {
   // Add one or more JSON files when markdown text extraction misses a token you still want slim artifacts to keep.
   extraMarkdownTokenJsonPaths: [],
-  // Add one or more SCSS files when tokens such as --fontStack-sansSerif need a custom source.
-  extraScssSourcePaths: [],
+  // Add one or more SCSS files when markdown depends on extra typography or token sources outside the default base inputs.
+  extraScssSourcePaths: ['node_modules/@primer/css/primitives/temp-typography-tokens.scss'],
   // Publish the full explicit auto-theme matrix so consumers can choose a system-following pair directly.
   publishedAutoThemePairs: supportedAutoThemePairs,
   // Theme descriptions are reused by docs so users can choose quickly without reading token-level implementation details.

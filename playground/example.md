@@ -1,8 +1,10 @@
+![](https://github.com/tofrankie/blog/raw/main/images/cover.png)
+
 ## GitHub Markdown Render
 
 ## Markdown Basic Syntax
 
-I just love **bold text**. Italicized text is the _cat's meow_. At the command prompt, type `nano`.
+I just love **bold text**. Italicized text is the _cat's meow_. At the command prompt, type `nano`. [`nano`](https://github.com/bytedance/bytemd)
 
 My favorite markdown editor is [ByteMD](https://github.com/bytedance/bytemd).
 
@@ -13,8 +15,8 @@ My favorite markdown editor is [ByteMD](https://github.com/bytedance/bytemd).
 > Dorothy followed her through many of the beautiful rooms in her castle.
 
 ```js
-import gfm from '@bytemd/plugin-gfm'
 import { Editor, Viewer } from 'bytemd'
+import gfm from 'bytemd-plugin-gfm'
 
 const plugins = [
   gfm(),
@@ -214,8 +216,8 @@ export default hljs
 ```
 
 ```js
-import gfm from '@bytemd/plugin-gfm'
 import { Editor, Viewer } from 'bytemd'
+import gfm from 'bytemd-plugin-gfm'
 
 const plugins = [
   gfm(),

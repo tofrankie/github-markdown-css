@@ -4,26 +4,50 @@
  */
 [data-color-mode="dark"][data-dark-theme="dark_high_contrast"],
 [data-color-mode="auto"][data-light-theme="dark_high_contrast"] {
+  --fgColor-accent: #74b9ff; /** Accent text for links and interactive elements */
+  --fgColor-done: #d3abff; /** Text color for completed/done state indicators */
+  --fgColor-success: #2bd853; /** Success text for positive feedback and completed states */
+  --bgColor-attention-muted: #edaa2726; /** Subtle attention background for warnings and caution states */
   --bgColor-muted: #151b23; /** Muted background for secondary content areas and subtle grouping */
   --bgColor-neutral-muted: #212830; /** Subtle neutral background for tags, labels, and secondary UI elements */
   --borderColor-accent-emphasis: #409eff; /** Strong accent border for selected or focused elements */
+  --borderColor-attention-emphasis: #e09b13; /** Strong attention border for prominent warnings */
+  --borderColor-danger-emphasis: #ff6a69; /** Strong danger border for destructive actions and errors */
   --borderColor-default: #b7bdc8; /** Default border color for most UI elements */
+  --borderColor-done-emphasis: #b87fff; /** Strong border for completed/done state badges */
+  --borderColor-success-emphasis: #09b43a; /** Strong success border for prominent positive elements */
+  --fgColor-attention: #f0b72f; /** Attention text for warnings and caution states */
   --fgColor-danger: #ff9492; /** Danger text for errors and destructive actions */
   --fgColor-muted: #b7bdc8; /** Muted text for secondary content and less important information */
   --bgColor-default: #010409; /** Default background color for pages and main content areas */
   --borderColor-muted: var(--borderColor-default); /** Subtle border for secondary elements and light separators */
   --fgColor-default: #ffffff; /** Default text color for primary content and headings */
+  --focus-outline-color: var(--borderColor-accent-emphasis); /** Outline color for focus states on interactive elements */
+  --borderColor-neutral-muted: var(--borderColor-muted); /** Subtle neutral semantic border */
+  --focus-outlineColor: var(--focus-outline-color); /** Deprecated. Use focus.outline-color instead. */
 }
 @media (prefers-color-scheme: dark) {
   [data-color-mode][data-color-mode="auto"][data-dark-theme="dark_high_contrast"] {
+    --fgColor-accent: #74b9ff; /** Accent text for links and interactive elements */
+    --fgColor-done: #d3abff; /** Text color for completed/done state indicators */
+    --fgColor-success: #2bd853; /** Success text for positive feedback and completed states */
+    --bgColor-attention-muted: #edaa2726; /** Subtle attention background for warnings and caution states */
     --bgColor-muted: #151b23; /** Muted background for secondary content areas and subtle grouping */
     --bgColor-neutral-muted: #212830; /** Subtle neutral background for tags, labels, and secondary UI elements */
     --borderColor-accent-emphasis: #409eff; /** Strong accent border for selected or focused elements */
+    --borderColor-attention-emphasis: #e09b13; /** Strong attention border for prominent warnings */
+    --borderColor-danger-emphasis: #ff6a69; /** Strong danger border for destructive actions and errors */
     --borderColor-default: #b7bdc8; /** Default border color for most UI elements */
+    --borderColor-done-emphasis: #b87fff; /** Strong border for completed/done state badges */
+    --borderColor-success-emphasis: #09b43a; /** Strong success border for prominent positive elements */
+    --fgColor-attention: #f0b72f; /** Attention text for warnings and caution states */
     --fgColor-danger: #ff9492; /** Danger text for errors and destructive actions */
     --fgColor-muted: #b7bdc8; /** Muted text for secondary content and less important information */
     --bgColor-default: #010409; /** Default background color for pages and main content areas */
     --borderColor-muted: var(--borderColor-default); /** Subtle border for secondary elements and light separators */
     --fgColor-default: #ffffff; /** Default text color for primary content and headings */
+    --focus-outline-color: var(--borderColor-accent-emphasis); /** Outline color for focus states on interactive elements */
+    --borderColor-neutral-muted: var(--borderColor-muted); /** Subtle neutral semantic border */
+    --focus-outlineColor: var(--focus-outline-color); /** Deprecated. Use focus.outline-color instead. */
   }
 }

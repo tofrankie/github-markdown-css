@@ -309,10 +309,19 @@ function buildMediaMarkdownBodyTokenBlock(bodyLines) {
 function extractMergedBodyLines(baseArtifacts) {
   // Base size and typography stay separate in source/slim artifacts, but published bundles
   // collapse them into one scope block to keep the final CSS easier to consume.
-  return baseArtifacts.flatMap((artifact, index) => {
-    const scope = extractFirstTopLevelScope(artifact.css)
+  let hasMergedLines = false
 
-    return index === 0 ? scope.bodyLines : ['', ...scope.bodyLines]
+  return baseArtifacts.flatMap(artifact => {
+    if (artifact.css.trim() === '') {
+      return []
+    }
+
+    const scope = extractFirstTopLevelScope(artifact.css)
+    const lines = hasMergedLines ? ['', ...scope.bodyLines] : scope.bodyLines
+
+    hasMergedLines = true
+
+    return lines
   })
 }
 

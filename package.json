@@ -1,14 +1,32 @@
 {
   "name": "@tofrankie/github-markdown-css",
   "type": "module",
-  "version": "1.0.0",
-  "private": true,
+  "version": "0.0.1",
   "packageManager": "pnpm@10.33.4",
-  "description": "",
+  "description": "GitHub Flavored Markdown CSS bundles",
   "author": "Frankie <1426203851@qq.com>",
   "license": "MIT",
-  "homepage": "https://github.com/tofrankie/example",
-  "keywords": [],
+  "funding": [
+    {
+      "type": "paypal",
+      "url": "https://paypal.me/tofrankie"
+    },
+    {
+      "type": "ifdian",
+      "url": "https://ifdian.net/a/tofrankie"
+    }
+  ],
+  "homepage": "https://github.com/tofrankie/github-markdown-css",
+  "bugs": {
+    "url": "https://github.com/tofrankie/github-markdown-css/issues"
+  },
+  "keywords": [
+    "gfm",
+    "github",
+    "github-flavored-markdown",
+    "markdown",
+    "primer"
+  ],
   "exports": {
     ".": "./dist/index.js",
     "./*.css": "./dist/*.css",
@@ -19,16 +37,18 @@
   ],
   "scripts": {
     "build": "node ./scripts/build-css.mjs",
+    "dev": "node ./scripts/dev-css.mjs",
     "build:artifacts": "node ./scripts/build-artifacts.mjs",
     "check:css": "run-s build build:artifacts validate:css",
     "validate:css": "node ./scripts/validate-css.mjs",
-    "lint": "run-s lint:prettier lint:eslint lint:stylelint typecheck",
+    "lint": "run-s lint:prettier lint:eslint lint:stylelint",
     "lint:eslint": "eslint . --cache --fix",
     "lint:prettier": "prettier . --cache --write --log-level silent",
     "lint:stylelint": "stylelint '**/*.{css,scss}' --cache --fix --ignore-path .gitignore",
     "typecheck": "tsc --noEmit",
     "publint": "publint",
     "prepublishOnly": "run-s lint build build:artifacts validate:css",
+    "github:release": "tfr",
     "prepare": "simple-git-hooks",
     "lint-staged": "lint-staged"
   },
@@ -37,6 +57,7 @@
     "@fission-ai/openspec": "^1.6.0",
     "@primer/css": "^22.3.0",
     "@primer/primitives": "^11.9.0",
+    "@tofrankie/action": "^0.0.8",
     "@tofrankie/commitlint": "^0.0.6",
     "@tofrankie/eslint": "^0.5.0",
     "@tofrankie/prettier": "^0.2.0",

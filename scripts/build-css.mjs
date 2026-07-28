@@ -38,6 +38,13 @@ async function main() {
     themeArtifacts,
     tokenNames: markdownTokenNames,
   })
+
+  if (tokenScope.themeTokenNames.size === 0) {
+    throw new Error(
+      'No theme token references were found in the compiled markdown CSS. The entry file may be in a transient edit state, or it may no longer import the Primer markdown source.'
+    )
+  }
+
   const slimArtifacts = createSlimArtifacts({
     baseArtifacts,
     markdownCss,

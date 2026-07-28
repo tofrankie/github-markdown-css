@@ -1,0 +1,481 @@
+// SCSS variables and mixins 供后续使用
+@import '@primer/css/support/index.scss';
+
+// 基于 @primer/css/base/normalize.scss 并移除部分全局属性（如 body 等）
+.markdown-body {
+  article,
+  aside,
+  details,
+  /* 1 */
+  figcaption,
+  figure,
+  footer,
+  header,
+  main,
+  /* 2 */
+  menu,
+  nav,
+  section {
+    /* 1 */
+    display: block;
+  }
+
+  summary {
+    display: list-item;
+  }
+
+  audio,
+  canvas,
+  progress,
+  video {
+    display: inline-block;
+  }
+
+  audio:not([controls]) {
+    display: none;
+    height: 0;
+  }
+
+  progress {
+    vertical-align: baseline;
+  }
+
+  template,
+  /* 1 */
+  [hidden] {
+    display: none !important;
+  }
+
+  a {
+    background-color: transparent; /* 1 */
+  }
+
+  abbr[title] {
+    text-decoration: underline; /* 2 */
+    text-decoration: underline dotted; /* 2 */
+    border-bottom: none; /* 1 */
+  }
+
+  b,
+  strong {
+    font-weight: inherit;
+  }
+
+  b,
+  strong {
+    font-weight: bolder;
+  }
+
+  dfn {
+    font-style: italic;
+  }
+
+  h1 {
+    margin: 0.67em 0;
+    font-size: 2em;
+  }
+
+  mark {
+    color: var(--fgColor-default);
+    background-color: var(--bgColor-attention-muted);
+  }
+
+  small {
+    font-size: 80%;
+  }
+
+  sub,
+  sup {
+    position: relative;
+    font-size: 75%;
+    line-height: 0;
+    vertical-align: baseline;
+  }
+
+  sub {
+    bottom: -0.25em;
+  }
+
+  sup {
+    top: -0.5em;
+  }
+
+  img {
+    border-style: none;
+  }
+
+  svg:not(:root) {
+    overflow: hidden;
+  }
+
+  code,
+  kbd,
+  pre,
+  samp {
+    font-family: monospace; /* 1 */
+    font-size: 1em; /* 2 */
+  }
+
+  figure {
+    margin: 1em var(--base-size-40);
+  }
+
+  hr {
+    box-sizing: content-box; /* 1 */
+    height: 0; /* 1 */
+    overflow: visible; /* 2 */
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    margin: 0; /* 2 */
+    font: inherit; /* 1 */
+  }
+
+  optgroup {
+    font-weight: $font-weight-bold;
+  }
+
+  button,
+  input {
+    /* 1 */
+    overflow: visible;
+  }
+
+  button,
+  select {
+    /* 1 */
+    text-transform: none;
+  }
+
+  button,
+  html [type='button'],
+  /* 1 */
+  [type='reset'],
+  [type='submit'] {
+    -webkit-appearance: button; /* 2 */
+  }
+
+  fieldset {
+    padding: 0.35em 0.625em $em-spacer-6;
+    margin: 0 2px;
+    border: $border-width $border-style #c0c0c0;
+  }
+
+  legend {
+    box-sizing: border-box; /* 1 */
+    display: table; /* 1 */
+    max-width: 100%; /* 1 */
+    padding: 0; /* 3 */
+    color: inherit; /* 2 */
+    white-space: normal; /* 1 */
+  }
+
+  textarea {
+    overflow: auto;
+  }
+
+  [type='checkbox'],
+  [type='radio'] {
+    box-sizing: border-box; /* 1 */
+    padding: 0; /* 2 */
+  }
+
+  [type='number']::-webkit-inner-spin-button,
+  [type='number']::-webkit-outer-spin-button {
+    height: auto;
+  }
+
+  [type='search']::-webkit-search-cancel-button,
+  [type='search']::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }
+
+  ::-webkit-input-placeholder {
+    color: inherit;
+    opacity: 0.54;
+  }
+
+  ::-webkit-file-upload-button {
+    font: inherit; /* 2 */
+
+    -webkit-appearance: button; /* 1 */
+  }
+}
+
+// 基于 @primer/css/base/base.scss 移除部分全局（如 body 等）
+.markdown-body {
+  // stylelint-disable selector-max-type, selector-no-qualifying-type, primer/typography
+  * {
+    box-sizing: border-box;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  a {
+    color: var(--fgColor-accent);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  b,
+  strong {
+    font-weight: $font-weight-bold;
+  }
+
+  fieldset {
+    padding: 0;
+    margin: 0;
+    border: 0;
+  }
+
+  label {
+    font-weight: $font-weight-bold;
+  }
+
+  // Custom styling for HTML5 validation bubbles (WebKit only)
+  ::placeholder {
+    color: var(--fgColor-muted);
+    opacity: 1; // override opacity in normalize.css
+  }
+
+  // Horizontal lines
+  //
+  // TODO-MDO: Remove `.rule` from everywhere and replace with `<hr>`s
+  hr,
+  .rule {
+    height: 0;
+    // stylelint-disable-next-line primer/spacing
+    margin: 15px 0;
+    overflow: hidden;
+    background: transparent;
+    border: 0;
+    // stylelint-disable-next-line primer/borders, primer/colors
+    border-bottom: $border-width $border-style var(--borderColor-muted, var(--color-border-muted));
+
+    @include clearfix();
+  }
+
+  //
+  // Remove most spacing between table cells.
+  //
+
+  table {
+    border-spacing: 0;
+    // stylelint-disable-next-line primer/borders
+    border-collapse: collapse;
+  }
+
+  td,
+  th {
+    padding: 0;
+  }
+
+  button {
+    cursor: pointer;
+    // Remove border radius added by Chrome macOS
+    border-radius: 0;
+  }
+
+  // increase the selector specificity for [hidden]
+  // so that it always overrides utility classes (.d-block, etc.)
+  [hidden][hidden] {
+    display: none !important;
+  }
+
+  details {
+    summary {
+      cursor: pointer;
+    }
+  }
+
+  // global focus styles
+
+  a,
+  button,
+  [role='button'],
+  input[type='radio'],
+  input[type='checkbox'] {
+    // fallback :focus state
+    &:focus {
+      outline: 2px solid var(--focus-outlineColor, var(--fgColor-accent));
+      outline-offset: -2px;
+
+      // remove fallback :focus if :focus-visible is supported
+      &:not(:focus-visible) {
+        outline: solid 1px transparent;
+      }
+    }
+
+    // default focus state
+    &:focus-visible {
+      outline: 2px solid var(--focus-outlineColor, var(--fgColor-accent));
+      outline-offset: -2px;
+    }
+  }
+
+  a:not([class]),
+  input[type='radio'],
+  input[type='checkbox'] {
+    &:focus,
+    &:focus-visible {
+      outline-offset: 0;
+    }
+  }
+
+  // for handling focus conditionally
+  .focus {
+    border-color: var(--focus-outlineColor, var(--fgColor-accent));
+    box-shadow: inset 0 0 0 1px var(--focus-outlineColor, var(--fgColor-accent));
+  }
+
+  // Windows High Contrast mode
+  @media (forced-colors: active) {
+    *:focus,
+    *:focus-visible {
+      outline: solid 1px transparent;
+    }
+
+    input:not([type='radio'], [type='checkbox']),
+    textarea,
+    select {
+      &:focus,
+      &:focus-visible {
+        outline-offset: 2px;
+      }
+    }
+  }
+}
+
+// GitHub Alerts
+.markdown-body {
+  .markdown-alert {
+    padding: var(--base-size-8) var(--base-size-16);
+    margin-bottom: var(--base-size-16);
+    color: inherit;
+    border-left: 0.25em solid var(--borderColor-default);
+  }
+
+  .markdown-alert > :first-child {
+    margin-top: 0;
+  }
+
+  .markdown-alert > :last-child {
+    margin-bottom: 0;
+  }
+
+  .markdown-alert .markdown-alert-title {
+    display: flex;
+    align-items: center;
+    font-weight: var(--base-text-weight-medium, 500);
+    line-height: 1;
+  }
+
+  // Compatible with ByteMD
+  .markdown-alert .markdown-alert-title .octicon {
+    margin-right: var(--base-size-8);
+  }
+
+  .markdown-alert.markdown-alert-note {
+    border-left-color: var(--borderColor-accent-emphasis);
+  }
+
+  .markdown-alert.markdown-alert-note .markdown-alert-title {
+    color: var(--fgColor-accent);
+  }
+
+  .markdown-alert.markdown-alert-important {
+    border-left-color: var(--borderColor-done-emphasis);
+  }
+
+  .markdown-alert.markdown-alert-important .markdown-alert-title {
+    color: var(--fgColor-done);
+  }
+
+  .markdown-alert.markdown-alert-warning {
+    border-left-color: var(--borderColor-attention-emphasis);
+  }
+
+  .markdown-alert.markdown-alert-warning .markdown-alert-title {
+    color: var(--fgColor-attention);
+  }
+
+  .markdown-alert.markdown-alert-tip {
+    border-left-color: var(--borderColor-success-emphasis);
+  }
+
+  .markdown-alert.markdown-alert-tip .markdown-alert-title {
+    color: var(--fgColor-success);
+  }
+
+  .markdown-alert.markdown-alert-caution {
+    border-left-color: var(--borderColor-danger-emphasis);
+  }
+
+  .markdown-alert.markdown-alert-caution .markdown-alert-title {
+    color: var(--fgColor-danger);
+  }
+}
+
+// 补充
+.markdown-body {
+  @import '@primer/css/base/kbd.scss';
+  @import '@primer/css/base/octicons.scss';
+  @import '@primer/css/base/typography-base.scss';
+
+  // 链接、脚注等
+  a,
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2rem;
+  }
+
+  // Mermaid
+  .render-needs-enrichment {
+    margin-bottom: var(--base-size-16);
+  }
+
+  // Task list
+  .task-list-item {
+    list-style-type: none;
+  }
+
+  .task-list-item label {
+    font-weight: var(--base-text-weight-normal);
+  }
+
+  .task-list-item.enabled label {
+    cursor: pointer;
+  }
+
+  .task-list-item + .task-list-item {
+    margin-top: var(--base-size-4);
+  }
+
+  .task-list-item .handle {
+    display: none;
+  }
+
+  // Compatible with ByteMD
+  .task-list-item input[type='checkbox'],
+  .task-list-item-checkbox {
+    margin: 0 0.2em 0.25em -1.4em;
+    vertical-align: middle;
+  }
+}
+
+// Base the package on Primer's upstream markdown source, then layer any
+// repo-local markdown-only extensions here.
+@import '@primer/css/markdown/index.scss';
