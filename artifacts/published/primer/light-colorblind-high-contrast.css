@@ -406,6 +406,13 @@
   color: var(--fgColor-danger);
 }
 
+.markdown-body blockquote {
+  background-color: initial;
+}
+.markdown-body a:hover {
+  color: var(--fgColor-accent);
+}
+
 .markdown-body kbd {
   display: inline-block;
   padding: var(--base-size-4);

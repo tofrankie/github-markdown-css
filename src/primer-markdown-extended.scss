@@ -383,7 +383,7 @@
     line-height: 1;
   }
 
-  // Compatible with ByteMD
+  // Compatible with bytemd
   .markdown-alert .markdown-alert-title .octicon {
     margin-right: var(--base-size-8);
   }
@@ -429,6 +429,19 @@
   }
 }
 
+// VS Code WebView 适配层
+.markdown-body {
+  // Blockquote
+  blockquote {
+    background-color: initial;
+  }
+
+  // Compatible with Cursor WebView
+  a:hover {
+    color: var(--fgColor-accent);
+  }
+}
+
 // 补充
 .markdown-body {
   @import '@primer/css/base/kbd.scss';
@@ -468,7 +481,7 @@
     display: none;
   }
 
-  // Compatible with ByteMD
+  // Compatible with bytemd
   .task-list-item input[type='checkbox'],
   .task-list-item-checkbox {
     margin: 0 0.2em 0.25em -1.4em;
