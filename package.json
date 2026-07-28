@@ -33,6 +33,7 @@
     "./primer/*.css": "./dist/primer/*.css"
   },
   "files": [
+    "CHANGELOG.md",
     "dist"
   ],
   "scripts": {
