@@ -1,7 +1,7 @@
 import { mkdir, rm, writeFile } from 'node:fs/promises'
 import { dirname, join, relative } from 'node:path'
 
-import { ensureTrailingNewline } from './primer-markdown-tokens.mjs'
+import { ensureTrailingNewline } from './resolve-token-scope.js'
 
 export async function preparePublishedOutputDirectory(paths) {
   await rm(paths.dist.dir, { force: true, recursive: true })

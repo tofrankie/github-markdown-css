@@ -1,4 +1,4 @@
-import { normalizeTokenValue } from './primer-markdown-tokens.mjs'
+import { normalizeTokenValue } from './resolve-token-scope.js'
 
 export function assertNoMissingRequiredTokenNames(tokenScope) {
   if (tokenScope.missingRequiredTokenNames.length === 0) {
@@ -76,8 +76,14 @@ export function buildValidationReport({
   }
 
   return {
-    extraMarkdownTokenJsonPaths: paths.hooks.extraMarkdownTokenJsonPaths,
-    extraScssSourcePaths: paths.hooks.extraScssSourcePaths,
+    tokenInputs: paths.tokenInputs,
+    tokenSources: paths.tokenSources.map(({ format, key, kind, path, purpose }) => ({
+      format,
+      key,
+      kind,
+      path,
+      purpose,
+    })),
     markdownTokenNames: [...markdownTokenNames].sort(),
     publishedOutputs: createPublishedOutputReport(publishedArtifacts),
     summary: {

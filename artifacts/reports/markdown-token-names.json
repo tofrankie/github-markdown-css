@@ -5,6 +5,7 @@
   "--base-size-40",
   "--base-size-8",
   "--base-text-weight-medium",
+  "--base-text-weight-normal",
   "--base-text-weight-semibold",
   "--bgColor-attention-muted",
   "--bgColor-default",

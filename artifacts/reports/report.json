@@ -1,7 +1,41 @@
 {
-  "extraMarkdownTokenJsonPaths": [],
-  "extraScssSourcePaths": [
-    "node_modules/@primer/css/primitives/temp-typography-tokens.scss"
+  "tokenInputs": [],
+  "tokenSources": [
+    {
+      "format": "css",
+      "key": "functional-typography",
+      "kind": "base",
+      "path": "/Users/frankie/Web/Git/github-markdown-css/node_modules/@primer/primitives/dist/css/functional/typography/typography.css",
+      "purpose": "提供 markdown 使用的 --fontStack-* 与 --text-* 功能排版 token。"
+    },
+    {
+      "format": "css",
+      "key": "size",
+      "kind": "base",
+      "path": "/Users/frankie/Web/Git/github-markdown-css/node_modules/@primer/primitives/dist/css/base/size/size.css",
+      "purpose": "提供 markdown 使用的 --base-size-* token。"
+    },
+    {
+      "format": "css",
+      "key": "typography",
+      "kind": "base",
+      "path": "/Users/frankie/Web/Git/github-markdown-css/node_modules/@primer/primitives/dist/css/base/typography/typography.css",
+      "purpose": "提供 markdown 使用的 --base-text-* token。"
+    },
+    {
+      "format": "scss",
+      "key": "temp-typography-tokens",
+      "kind": "base",
+      "path": "/Users/frankie/Web/Git/github-markdown-css/node_modules/@primer/css/primitives/temp-typography-tokens.scss",
+      "purpose": "补充 Primer 默认 CSS 尚未覆盖的临时排版 token，例如 --h1-size 与 --body-font-size。"
+    },
+    {
+      "format": "css-directory",
+      "key": "primer-themes",
+      "kind": "theme",
+      "path": "/Users/frankie/Web/Git/github-markdown-css/node_modules/@primer/primitives/dist/css/functional/themes",
+      "purpose": "提供所有 Primer 功能主题 token；每个 CSS 文件会生成一个主题资产。"
+    }
   ],
   "markdownTokenNames": [
     "--base-size-16",
@@ -10,6 +44,7 @@
     "--base-size-40",
     "--base-size-8",
     "--base-text-weight-medium",
+    "--base-text-weight-normal",
     "--base-text-weight-semibold",
     "--bgColor-attention-muted",
     "--bgColor-default",
@@ -452,7 +487,7 @@
     ]
   },
   "summary": {
-    "slimBaseTokenCount": 15,
+    "slimBaseTokenCount": 16,
     "themeReports": [
       {
         "bundleComparison": {
@@ -720,9 +755,10 @@
       ],
       "typography": [
         "--base-text-weight-medium",
+        "--base-text-weight-normal",
         "--base-text-weight-semibold"
       ],
-      "custom-1-temp-typography-tokens": [
+      "temp-typography-tokens": [
         "--h1-size",
         "--h2-size",
         "--h3-size",
@@ -738,6 +774,7 @@
       "--base-size-40",
       "--base-size-8",
       "--base-text-weight-medium",
+      "--base-text-weight-normal",
       "--base-text-weight-semibold",
       "--bgColor-attention-muted",
       "--bgColor-default",

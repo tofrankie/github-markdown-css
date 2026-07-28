@@ -37,11 +37,11 @@
     "dist"
   ],
   "scripts": {
-    "build": "node ./scripts/build-css.mjs",
-    "dev": "node ./scripts/dev-css.mjs",
-    "build:artifacts": "node ./scripts/build-artifacts.mjs",
+    "build": "node ./scripts/build-css.js",
+    "dev": "node ./scripts/dev-css.js",
+    "build:artifacts": "node ./scripts/build-artifacts.js",
     "check:css": "run-s build build:artifacts validate:css",
-    "validate:css": "node ./scripts/validate-css.mjs",
+    "validate:css": "node ./scripts/validate-css.js",
     "lint": "run-s lint:prettier lint:eslint lint:stylelint",
     "lint:eslint": "eslint . --cache --fix",
     "lint:prettier": "prettier . --cache --write --log-level silent",

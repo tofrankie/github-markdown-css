@@ -46,14 +46,14 @@
 
 基于 [prefers-color-scheme](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-color-scheme) 跟随系统切换主题：
 
-- `auto`：在 `light` 与 `dark` 之间切换。
-- `auto-colorblind`：在 `light-colorblind` 与 `dark-colorblind` 之间切换。
-- `auto-high-contrast`：在 `light-high-contrast` 与 `dark-high-contrast` 之间切换。
-- `auto-tritanopia`：在 `light-tritanopia` 与 `dark-tritanopia` 之间切换。
-- `auto-colorblind-high-contrast`：在 `light-colorblind-high-contrast` 与 `dark-colorblind-high-contrast` 之间切换。
-- `auto-tritanopia-high-contrast`：在 `light-tritanopia-high-contrast` 与 `dark-tritanopia-high-contrast` 之间切换。
-- `auto-dimmed`：在 `light` 与 `dark-dimmed` 之间切换。
-- `auto-dimmed-high-contrast`：在 `light-high-contrast` 与 `dark-dimmed-high-contrast` 之间切换。
+- `auto`：在 light 与 dark 之间切换。
+- `auto-colorblind`：在 light-colorblind 与 dark-colorblind 之间切换。
+- `auto-high-contrast`：在 light-high-contrast 与 dark-high-contrast 之间切换。
+- `auto-tritanopia`：在 light-tritanopia 与 `dark-tritanopia` 之间切换。
+- `auto-colorblind-high-contrast`：在 light-colorblind-high-contrast 与 dark-colorblind-high-contrast 之间切换。
+- `auto-tritanopia-high-contrast`：在 light-tritanopia-high-contrast 与 dark-tritanopia-high-contrast 之间切换。
+- `auto-dimmed`：在 light 与 dark-dimmed 之间切换。
+- `auto-dimmed-high-contrast`：在 light-high-contrast 与 dark-dimmed-high-contrast 之间切换。
 
 ## References
 

@@ -1,37 +1,36 @@
 import { readFile } from 'node:fs/promises'
 
-import { buildConfig, cwd } from './build-config.mjs'
-import { createPrimerMarkdownPaths } from './utils/primer-markdown-paths.mjs'
-import { createPublishedArtifacts } from './utils/primer-markdown-published.mjs'
 import {
   buildMarkdownCss,
   readBaseArtifacts,
   readExtraMarkdownTokenNames,
   readThemeArtifacts,
-} from './utils/primer-markdown-sources.mjs'
+} from './core/collect-sources.js'
+import { createPublishedArtifacts } from './core/create-published-artifacts.js'
+import { loadBuildContext } from './core/load-config.js'
 import {
   createMarkdownTokenNames,
   createSlimArtifacts,
   createThemeBundles,
   resolveMarkdownTokenScope,
-} from './utils/primer-markdown-tokens.mjs'
+} from './core/resolve-token-scope.js'
 import {
   assertNoMissingRequiredTokenNames,
   buildValidationReport,
-} from './utils/primer-markdown-validation.mjs'
+} from './core/validate-artifacts.js'
 import {
   prepareArtifactsOutputDirectories,
   writeFullArtifacts,
   writePublishedArtifacts,
   writeSlimArtifacts,
   writeValidationArtifacts,
-} from './utils/primer-markdown-write.mjs'
-
-const paths = createPrimerMarkdownPaths({ buildConfig, cwd })
+} from './core/write-artifacts.js'
 
 main()
 
 async function main() {
+  const paths = loadBuildContext()
+
   await prepareArtifactsOutputDirectories(paths)
 
   const fixturesHtml = await readFile(paths.source.fixtureTemplatePath, 'utf8')
@@ -65,7 +64,7 @@ async function main() {
   // Reuse the same published-artifact assembly during artifact builds so preview fixtures
   // and validation reflect the exact npm-facing output shape.
   const publishedArtifacts = createPublishedArtifacts({
-    autoThemePairs: paths.hooks.publishedAutoThemePairs,
+    autoThemePairs: paths.publishedBundles.auto,
     baseArtifacts: slimArtifacts.baseArtifacts,
     markdownCss,
     themeArtifacts: slimArtifacts.themeArtifacts,

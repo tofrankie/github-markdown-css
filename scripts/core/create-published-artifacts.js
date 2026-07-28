@@ -1,4 +1,4 @@
-import { ensureTrailingNewline } from './primer-markdown-tokens.mjs'
+import { ensureTrailingNewline } from './resolve-token-scope.js'
 
 export function createPublishedArtifacts({
   autoThemePairs,
@@ -18,7 +18,7 @@ export function createPublishedArtifacts({
     createPrimerAutoBundle({
       baseArtifacts,
       darkThemeArtifact: getRequiredThemeArtifact(themeArtifactMap, pair.darkThemeKey),
-      key: pair.key,
+      fileName: pair.fileName,
       lightThemeArtifact: getRequiredThemeArtifact(themeArtifactMap, pair.lightThemeKey),
       markdownCss,
     })
@@ -27,7 +27,7 @@ export function createPublishedArtifacts({
     createScopedAutoBundle({
       baseArtifacts,
       darkThemeArtifact: getRequiredThemeArtifact(themeArtifactMap, pair.darkThemeKey),
-      key: pair.key,
+      fileName: pair.fileName,
       lightThemeArtifact: getRequiredThemeArtifact(themeArtifactMap, pair.lightThemeKey),
       markdownCss,
     })
@@ -96,7 +96,7 @@ function createScopedThemeBundle({ baseArtifacts, markdownCss, themeArtifact }) 
 function createPrimerAutoBundle({
   baseArtifacts,
   darkThemeArtifact,
-  key,
+  fileName,
   lightThemeArtifact,
   markdownCss,
 }) {
@@ -124,7 +124,7 @@ function createPrimerAutoBundle({
     ]),
     darkThemeKey: darkThemeArtifact.key,
     darkThemeSelectorKey: darkThemeStructure.darkThemeSelectorKey,
-    fileName: `${key}.css`,
+    fileName: `${fileName}.css`,
     kind: 'auto',
     lightThemeKey: lightThemeArtifact.key,
     lightThemeSelectorKey: lightThemeStructure.lightThemeSelectorKey,
@@ -135,7 +135,7 @@ function createPrimerAutoBundle({
 function createScopedAutoBundle({
   baseArtifacts,
   darkThemeArtifact,
-  key,
+  fileName,
   lightThemeArtifact,
   markdownCss,
 }) {
@@ -150,7 +150,7 @@ function createScopedAutoBundle({
       markdownCss,
     ]),
     darkThemeKey: darkThemeArtifact.key,
-    fileName: `${key}.css`,
+    fileName: `${fileName}.css`,
     kind: 'auto',
     lightThemeKey: lightThemeArtifact.key,
     scope: 'scoped',

@@ -1,8 +1,92 @@
-# 构建与验证资产
+# 维护者指南
 
 `artifacts/` 保存仓库内的构建中间资产、瘦身产物、验证报告和对照页面。这里的内容用于维护者验证新旧版本一致性、排查上游依赖升级差异，不属于 npm 发布面；npm 发布只包含 `dist/`。
 
-## 构建
+## 核心流程
+
+```text
+token sources registry
+  + markdown entry
+  + published bundle registry
+            |
+            v
+   build markdown css
+            |
+            v
+ extract markdown token names
+            |
+            v
+ resolve token ownership and slim closure
+            |
+            v
+  create full/slim/published artifacts
+            |
+            v
+   validate report + preview fixtures
+```
+
+可以把这套构建理解成三层：
+
+1. `scripts/config/*.js` 负责声明“输入是什么”
+2. `scripts/core/*.js` 负责执行“流水线怎么跑”
+3. `scripts/*.js` 顶层入口负责编排 build、artifacts、validate、dev
+
+## 核心概念
+
+- `source`：一个 token 来源对象，至少包含 `key`、`kind`、`format`、`path`、`purpose`
+- `theme`：一个可直接面向用户解释的主题元数据对象，提供主题 key 和简介
+- `published bundle`：最终要发布的 CSS 产物组合，包括单主题和 `auto*` 组合
+- `full`：未瘦身的 base/theme/bundle 对照资产
+- `slim`：按 markdown 实际 token 依赖裁剪后的 base/theme/bundle 资产
+- `published`：最终发布结构的对照副本，按 `scoped` 与 `primer` 两套作用域输出
+- `report`：验证报告与预览页面，用于机器校验和人工复核
+
+## 目录与入口
+
+```text
+scripts/
+  build-css.js
+  build-artifacts.js
+  validate-css.js
+  dev-css.js
+  config/
+    project.js
+    token-sources.js
+    themes.js
+    published-bundles.js
+  core/
+    load-config.js
+    build-context.js
+    collect-sources.js
+    resolve-token-scope.js
+    create-published-artifacts.js
+    validate-artifacts.js
+    write-artifacts.js
+src/
+  primer-markdown-extended.scss
+artifacts/
+  full/
+  slim/
+  published/
+  reports/
+```
+
+### 配置入口
+
+- [scripts/config/project.js](/Users/frankie/Web/Git/github-markdown-css/scripts/config/project.js:1)：项目级固定入口与关键路径
+- [scripts/config/token-sources.js](/Users/frankie/Web/Git/github-markdown-css/scripts/config/token-sources.js:1)：token 来源 registry 与额外 token 输入入口
+- [scripts/config/themes.js](/Users/frankie/Web/Git/github-markdown-css/scripts/config/themes.js:1)：主题分组与用户可见说明
+- [scripts/config/published-bundles.js](/Users/frankie/Web/Git/github-markdown-css/scripts/config/published-bundles.js:1)：最终 `auto*` 发布矩阵
+
+### 构建入口
+
+- `pnpm build`：生成最终发布产物 `dist/` 与 `dist/primer/`
+- `pnpm build:artifacts`：生成 `artifacts/full`、`artifacts/slim`、`artifacts/published` 与 `artifacts/reports`
+- `pnpm validate:css`：校验 `artifacts/reports/report.json` 与 `artifacts/reports/markdown-token-names.json`
+- `pnpm check:css`：顺序执行构建、生成中间资产、验证
+- `pnpm dev`：监听 markdown 入口与 `scripts/config/*.js`，自动重建 `dist/`
+
+## 本地开发与构建
 
 发布产物构建：
 
@@ -10,124 +94,60 @@
 pnpm build
 ```
 
-`build` 只生成最终发布产物：
-
-- `dist/`：输出 scoped 最终产物，例如 `dist/light.css`、`dist/auto.css`、`dist/auto-dimmed.css`
-- `dist/primer/`：输出保留 Primer selector 语义的最终产物，例如 `dist/primer/light.css`、`dist/primer/auto.css`、`dist/primer/auto-dimmed.css`
-- 这些发布文件都使用 slim 后的 `base + theme + github-markdown` 组合结果，而不是 full bundle
-
-## 核心流程
-
-完整 CSS 流水线：
+完整流水线：
 
 ```bash
 pnpm check:css
 ```
 
-它按顺序执行：
-
-1. `pnpm build`：生成 slim 后的最终发布产物，分别写出 `dist/*.css` 与 `dist/primer/*.css`
-2. `pnpm build:artifacts`：生成 full/slim 中间资产与验证资产到 `artifacts/`
-3. `pnpm validate:css`：校验 `artifacts/**` 中的 token 覆盖、悬空引用和 full/slim 一致性
-
-发布前必须保证这条流水线通过。
-
-## Development
-
-本地开发时可以运行：
+本地开发：
 
 ```bash
 pnpm dev
 ```
 
-该命令会先执行一次构建，然后监听 `src/primer-markdown-extended.scss` 与 `scripts/build-config.mjs` 的变更，自动重新生成 `dist/`。这意味着修改扩展入口或构建配置时，不需要手动重复执行 `pnpm build`。
+## 如何新增一个来源
 
-## 目录结构
+默认只改 [scripts/config/token-sources.js](/Users/frankie/Web/Git/github-markdown-css/scripts/config/token-sources.js:1)。
 
-```text
-artifacts/
-  full/
-    base/
-    bundles/
-    markdown/
-    themes/
-  published/
-    primer/
-    scoped/
-  slim/
-    base/
-    bundles/
-    themes/
-  reports/
-    full/
-    primer/
-    scoped/
-    slim/
-    markdown-token-names.json
-    report.json
-```
+新增步骤：
 
-- `full/`：未瘦身的 base、theme、markdown 与 bundle 对照资产
-- `published/`：按最终发布结构写出的 Primer scope 与 scoped scope 产物副本
-- `slim/`：基于 markdown 实际 token 依赖生成的瘦身 base、theme 与 bundle 资产
-- `reports/`：验证报告、markdown token 名单、full/slim 对照 HTML 页面，以及最终发布产物的 Primer/scoped 预览页面
+1. 增加一个来源对象
+2. 填写 `key`、`kind`、`format`、`path`、`purpose`
+3. 如果它属于基础 token 来源，使用 `kind: 'base'`
+4. 如果它是主题目录来源，继续使用现有 `kind: 'theme'` + `format: 'css-directory'`
+5. 运行 `pnpm check:css`
 
-`scripts/fixtures/markdown-fixture.html` 是源码级 fixture 模板输入，不放在 `artifacts/` 里。
-
-## 瘦身原理
-
-瘦身不是按文件或字符串粗暴删除 token，而是从 markdown 的真实消费反推需要保留的最小集合：
-
-1. 编译 `src/primer-markdown-extended.scss` 得到 markdown CSS
-2. 从 markdown CSS 提取全部 `var(--token)` 引用
-3. 合并自定义 token JSON 钩子中的额外 token 名称，并统一去重
-4. 按来源分桶：
-   - `--fontStack-*`、`--text-*` 等功能排版 token 来自 `@primer/primitives/dist/css/functional/typography/typography.css`
-   - `--base-size-*` 来自 `@primer/primitives/dist/css/base/size/size.css`
-   - `--base-text-*` 来自 `@primer/primitives/dist/css/base/typography/typography.css`
-   - 纳入本次范围的语义 token 来自 `@primer/primitives/dist/css/functional/themes/*.css`
-   - 仍未覆盖的个别来源可通过额外 SCSS 钩子补充
-5. 在同一来源文件内继续追踪 token 依赖闭包
-6. 闭包收敛后输出 slim 资产
-
-这样可以避免只保留 markdown 直接引用 token 时遗漏二级、三级同源依赖。
-
-## Markdown 扩展入口
-
-markdown 样式的源码入口固定为 [src/primer-markdown-extended.scss](/Users/frankie/Web/Git/github-markdown-css/src/primer-markdown-extended.scss:1)。
-
-- 该文件先复用上游 `@primer/css/markdown/index.scss`
-- 然后按需承载仓库内的 markdown token 扩展或 `.markdown-body` 局部样式扩展
-- 不用于引入全局 reset、页面级基础样式，尤其不要把 `@primer/css/base/index.scss` 这类整包基础样式直接并入这里
-
-## 自定义钩子
-
-构建配置集中在 [scripts/build-config.mjs](/Users/frankie/Web/Git/github-markdown-css/scripts/build-config.mjs:1)：
+示例：
 
 ```js
-export const buildConfig = {
-  extraMarkdownTokenJsonPaths: [],
-  extraScssSourcePaths: [],
+{
+  fileName: 'custom-tokens.css',
+  format: 'scss',
+  key: 'custom-tokens',
+  kind: 'base',
+  path: 'path/to/custom-tokens.scss',
+  purpose: '补充 markdown 依赖但 Primer 默认来源未覆盖的 token。',
 }
 ```
 
-- `extraMarkdownTokenJsonPaths`：当 markdown 文本提取遗漏某些仍需保留的 token 时，在这里追加一个或多个 JSON 文件路径
-- `extraScssSourcePaths`：当仍有未被 Primer 官方 CSS 覆盖的 token 来源时，在这里追加一个或多个自定义 SCSS 文件路径
+什么时候才需要改 `scripts/core/`：
 
-这组钩子和 `src/primer-markdown-extended.scss` 的职责不同：
+- 新来源类型超出现有 `css` / `scss` / `css-directory` 读取方式
+- 需要引入全新的 scope 归属规则
+- 需要改变验证口径
 
-- `src/primer-markdown-extended.scss`：markdown 构建入口，负责“上游 markdown 源 + 仓库内 markdown 扩展”
-- `extraScssSourcePaths`：额外 token 来源钩子，负责补充 markdown 依赖但不在官方 CSS 覆盖范围内的 token 定义
+## 如何补充额外 token 输入
 
-当前仓库已经通过 `extraScssSourcePaths` 接入 `node_modules/@primer/css/primitives/temp-typography-tokens.scss`，用于补充 `--h1-size`、`--h2-size`、`--h3-size`、`--body-font-size`、`--font-size-small` 等 markdown 和 `typography-base.scss` 会消费的临时排版 token。
+如果 markdown 文本提取遗漏某些仍需保留的 token，而不是缺少新来源，优先修改 [scripts/config/token-sources.js](/Users/frankie/Web/Git/github-markdown-css/scripts/config/token-sources.js:1) 里的 `extraMarkdownTokenInputs`。
 
-额外 token JSON 支持数组格式：
+支持的 JSON 结构：
 
 ```json
 ["--fontStack-sansSerif", "--custom-token"]
 ```
 
-也支持对象格式：
+或：
 
 ```json
 {
@@ -135,20 +155,83 @@ export const buildConfig = {
 }
 ```
 
-## 验证口径
+## 如何新增主题说明
 
-`pnpm validate:css` 以 `artifacts/reports/report.json` 和 `artifacts/reports/markdown-token-names.json` 为输入，重点验证：
+主题说明由 [scripts/config/themes.js](/Users/frankie/Web/Git/github-markdown-css/scripts/config/themes.js:1) 集中维护。
+
+一般只需要：
+
+1. 在 `themes` 中补充或修改对应主题的 `description`
+2. 如需调整 README 分组顺序，再同步修改 `themeGroups`
+
+简介优先说明选择理由，例如标准外观、色觉友好、高对比、低亮度阅读等，而不是实现细节。
+
+## 如何新增一个 `auto*` 组合
+
+默认只改 [scripts/config/published-bundles.js](/Users/frankie/Web/Git/github-markdown-css/scripts/config/published-bundles.js:1)。
+
+新增步骤：
+
+1. 增加一条矩阵对象
+2. 填写 `fileName`、`lightThemeKey`、`darkThemeKey`
+3. 运行 `pnpm check:css`
+4. 如需面向用户展示，再同步更新根 README 的主题说明
+
+示例：
+
+```js
+{
+  darkThemeKey: 'dark-dimmed',
+  fileName: 'auto-dimmed',
+  lightThemeKey: 'light',
+}
+```
+
+## 如何扩展 markdown 入口
+
+markdown 样式入口固定为 [src/primer-markdown-extended.scss](/Users/frankie/Web/Git/github-markdown-css/src/primer-markdown-extended.scss:1)。
+
+- 允许：markdown token 扩展、`.markdown-body` 局部样式扩展
+- 不允许：把 `@primer/css/base/index.scss` 之类的全局基础样式整体并入入口
+
+这条边界的目的是保持 markdown 入口的单一职责，让 token 来源与全局样式注入问题继续由 registry 和核心流水线处理。
+
+## 验证输出
+
+验证会重点检查：
 
 - slim base/theme 是否覆盖 markdown 仍然需要的 in-scope token
 - slim base/theme 是否存在指向同源已删除 token 的悬空引用
 - slim 与 full 中关键 token 的规范化值是否一致
-- 所有 `dist/auto*.css` 与 `dist/primer/auto*.css` 是否都保留 `prefers-color-scheme: dark` 分支
+- 所有 `dist/auto*.css` 与 `dist/primer/auto*.css` 是否保留 `prefers-color-scheme: dark` 分支
 - scoped 单主题产物是否避免重复复制 `prefers-color-scheme: dark` token 块
 - full/slim 对照 HTML 是否能引用对应 bundle，便于人工检查渲染差异
 
-对照页面位于：
+预览页面位于：
 
 - `artifacts/reports/full/*.html`
-- `artifacts/reports/primer/*.html`
-- `artifacts/reports/scoped/*.html`
 - `artifacts/reports/slim/*.html`
+- `artifacts/reports/scoped/*.html`
+- `artifacts/reports/primer/*.html`
+
+## 注意事项
+
+- 新增来源时优先先问自己：这是“缺一个来源对象”，还是“只是缺几个额外 token 名称”
+- 不要把主题说明、发布矩阵和来源补丁再混回同一个文件里
+- 不要在 `scripts/*.js` 顶层入口里直接堆业务细节；复杂逻辑继续下沉到 `scripts/core/*.js`
+- 这是一个明确的 ESM 项目，Node 侧脚本统一使用 `.js`，不要重新引入 `.mjs`
+- 当前工作流的目标是“默认改一个声明入口即可”，只有声明模型覆盖不了时才进入 core 重构
+
+## 实现细节
+
+瘦身逻辑不是按文件或字符串粗暴删除 token，而是：
+
+1. 编译 `src/primer-markdown-extended.scss` 得到 markdown CSS
+2. 提取 markdown CSS 中的全部 `var(--token)` 引用
+3. 合并额外 token 输入
+4. 按来源 registry 分配 token 所属来源
+5. 在同一来源文件内继续追踪 token 依赖闭包
+6. 生成 slim base/theme/bundle
+7. 基于 slim 结果组装最终 published 产物
+
+这样做的好处是：维护者可以把“新来源是什么”和“现有算法如何裁剪”分开理解，新增来源时通常不必先读完整个 core 流水线。

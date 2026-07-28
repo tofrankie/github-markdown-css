@@ -1,8 +1,16 @@
 import { resolve } from 'node:path'
 
-export function createPrimerMarkdownPaths({ cwd, buildConfig }) {
-  const artifactsRootDir = resolve(cwd, 'artifacts')
-  const distDir = resolve(cwd, 'dist')
+export function createBuildContext({
+  autoThemeBundles,
+  cwd,
+  extraMarkdownTokenInputs,
+  projectConfig,
+  tokenSources,
+}) {
+  assertTokenSources(tokenSources)
+
+  const artifactsRootDir = resolve(cwd, projectConfig.artifactsDirectory)
+  const distDir = resolve(cwd, projectConfig.distDirectory)
 
   return {
     artifacts: {
@@ -37,26 +45,33 @@ export function createPrimerMarkdownPaths({ cwd, buildConfig }) {
       indexPath: resolve(distDir, 'index.js'),
       primerDir: resolve(distDir, 'primer'),
     },
-    hooks: {
-      extraMarkdownTokenJsonPaths: [...buildConfig.extraMarkdownTokenJsonPaths],
-      extraScssSourcePaths: [...buildConfig.extraScssSourcePaths],
-      publishedAutoThemePairs: [...buildConfig.publishedAutoThemePairs],
-      themeDescriptions: { ...buildConfig.themeDescriptions },
-    },
     source: {
-      functionalTypographySourcePath: resolve(
-        cwd,
-        'node_modules/@primer/primitives/dist/css/functional/typography/typography.css'
-      ),
-      buildConfigPath: resolve(cwd, 'scripts/build-config.mjs'),
-      fixtureTemplatePath: resolve(cwd, 'scripts/fixtures/markdown-fixture.html'),
-      markdownEntryPath: resolve(cwd, 'src/primer-markdown-extended.scss'),
-      sizeSourcePath: resolve(cwd, 'node_modules/@primer/primitives/dist/css/base/size/size.css'),
-      themesSourceDir: resolve(cwd, 'node_modules/@primer/primitives/dist/css/functional/themes'),
-      typographySourcePath: resolve(
-        cwd,
-        'node_modules/@primer/primitives/dist/css/base/typography/typography.css'
-      ),
+      fixtureTemplatePath: resolve(cwd, projectConfig.fixtureTemplatePath),
+      markdownEntryPath: resolve(cwd, projectConfig.markdownEntryPath),
     },
+    tokenInputs: extraMarkdownTokenInputs.map(input => resolve(cwd, input)),
+    tokenSources: tokenSources.map(source => ({
+      ...source,
+      path: resolve(cwd, source.path),
+    })),
+    publishedBundles: {
+      auto: autoThemeBundles.map(bundle => ({ ...bundle })),
+    },
+  }
+}
+
+function assertTokenSources(tokenSources) {
+  const sourceKeys = new Set()
+
+  for (const source of tokenSources) {
+    if (!source.key || !source.kind || !source.format || !source.path || !source.purpose) {
+      throw new TypeError(`Token source ${source.key ?? '(unknown)'} is missing required metadata`)
+    }
+
+    if (sourceKeys.has(source.key)) {
+      throw new Error(`Duplicate token source key: ${source.key}`)
+    }
+
+    sourceKeys.add(source.key)
   }
 }

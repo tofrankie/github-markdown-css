@@ -9,6 +9,7 @@
   --base-size-8: 0.5rem;
 
   --base-text-weight-medium: 500;
+  --base-text-weight-normal: 400;
   --base-text-weight-semibold: 600;
 
   --h1-size: 2rem;
@@ -369,6 +370,9 @@
   font-weight: var(--base-text-weight-medium, 500);
   line-height: 1;
 }
+.markdown-body .markdown-alert .markdown-alert-title .octicon {
+  margin-right: var(--base-size-8);
+}
 .markdown-body .markdown-alert.markdown-alert-note {
   border-left-color: var(--borderColor-accent-emphasis);
 }
@@ -496,6 +500,34 @@
 }
 .markdown-body .octicon {
   vertical-align: text-bottom;
+}
+.markdown-body a,
+.markdown-body a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+.markdown-body .render-needs-enrichment {
+  margin-bottom: var(--base-size-16);
+}
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+.markdown-body .task-list-item label {
+  font-weight: var(--base-text-weight-normal);
+}
+.markdown-body .task-list-item.enabled label {
+  cursor: pointer;
+}
+.markdown-body .task-list-item + .task-list-item {
+  margin-top: var(--base-size-4);
+}
+.markdown-body .task-list-item .handle {
+  display: none;
+}
+.markdown-body .task-list-item input[type=checkbox],
+.markdown-body .task-list-item-checkbox {
+  margin: 0 0.2em 0.25em -1.4em;
+  vertical-align: middle;
 }
 
 .markdown-body {

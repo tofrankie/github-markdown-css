@@ -6,7 +6,7 @@ import {
   createTokenDefinitionMap,
   ensureTrailingNewline,
   extractDefinedTokenNames,
-} from './primer-markdown-tokens.mjs'
+} from './resolve-token-scope.js'
 
 export async function buildMarkdownCss(paths) {
   const markdownResult = await compileAsync(paths.source.markdownEntryPath, {
@@ -20,46 +20,24 @@ export async function buildMarkdownCss(paths) {
 }
 
 export async function readBaseArtifacts(paths) {
-  const sources = [
-    {
-      fileName: 'functional-typography.css',
-      key: 'functional-typography',
-      sourcePath: paths.source.functionalTypographySourcePath,
-      sourceType: 'css',
-    },
-    {
-      fileName: 'size.css',
-      key: 'size',
-      sourcePath: paths.source.sizeSourcePath,
-      sourceType: 'css',
-    },
-    {
-      fileName: 'typography.css',
-      key: 'typography',
-      sourcePath: paths.source.typographySourcePath,
-      sourceType: 'css',
-    },
-    ...paths.hooks.extraScssSourcePaths.map((sourcePath, index) => ({
-      fileName: `custom-${index + 1}-${basename(sourcePath, '.scss')}.css`,
-      key: `custom-${index + 1}-${basename(sourcePath, '.scss')}`,
-      sourcePath,
-      sourceType: 'scss',
-    })),
-  ]
+  const sources = paths.tokenSources.filter(source => source.kind === 'base')
 
   return Promise.all(sources.map(source => readTokenArtifact(paths, source)))
 }
 
 export async function readThemeArtifacts(paths) {
-  const themeFileNames = await getThemeFileNames(paths)
+  const themeSource = getRequiredThemeSource(paths)
+  const themeFileNames = await getThemeFileNames(themeSource.path)
 
   return Promise.all(
     themeFileNames.map(themeFileName =>
       readTokenArtifact(paths, {
         fileName: themeFileName,
         key: basename(themeFileName, '.css'),
-        sourcePath: join(paths.source.themesSourceDir, themeFileName),
-        sourceType: 'css',
+        path: join(themeSource.path, themeFileName),
+        format: 'css',
+        kind: 'theme',
+        purpose: themeSource.purpose,
       })
     )
   )
@@ -68,7 +46,7 @@ export async function readThemeArtifacts(paths) {
 export async function readExtraMarkdownTokenNames(paths) {
   const tokenNames = new Set()
 
-  for (const sourcePath of paths.hooks.extraMarkdownTokenJsonPaths) {
+  for (const sourcePath of paths.tokenInputs) {
     const payload = JSON.parse(await readFile(sourcePath, 'utf8'))
     const nextTokenNames = Array.isArray(payload) ? payload : payload.tokens
 
@@ -90,17 +68,15 @@ export async function readExtraMarkdownTokenNames(paths) {
   return tokenNames
 }
 
-async function getThemeFileNames(paths) {
-  return (await readdir(paths.source.themesSourceDir))
-    .filter(fileName => fileName.endsWith('.css'))
-    .sort()
+async function getThemeFileNames(sourcePath) {
+  return (await readdir(sourcePath)).filter(fileName => fileName.endsWith('.css')).sort()
 }
 
 async function readTokenArtifact(paths, source) {
   const css =
-    source.sourceType === 'scss'
-      ? await compileScssSource(paths, source.sourcePath)
-      : ensureTrailingNewline(await readFile(source.sourcePath, 'utf8'))
+    source.format === 'scss'
+      ? await compileScssSource(paths, source.path)
+      : ensureTrailingNewline(await readFile(source.path, 'utf8'))
 
   return {
     css,
@@ -108,6 +84,16 @@ async function readTokenArtifact(paths, source) {
     definedTokenNames: extractDefinedTokenNames(css),
     ...source,
   }
+}
+
+function getRequiredThemeSource(paths) {
+  const themeSource = paths.tokenSources.find(source => source.kind === 'theme')
+
+  if (!themeSource || themeSource.format !== 'css-directory') {
+    throw new Error('Expected one theme token source with format "css-directory"')
+  }
+
+  return themeSource
 }
 
 async function compileScssSource(paths, sourcePath) {

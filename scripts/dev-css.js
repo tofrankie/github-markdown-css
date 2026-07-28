@@ -2,20 +2,15 @@ import { spawn } from 'node:child_process'
 import { unwatchFile, watchFile } from 'node:fs'
 import { basename, relative } from 'node:path'
 
-import { cwd } from './build-config.mjs'
-import { createPrimerMarkdownPaths } from './utils/primer-markdown-paths.mjs'
+import { cwd, projectConfig } from './config/project.js'
 
-const paths = createPrimerMarkdownPaths({
-  buildConfig: {
-    extraMarkdownTokenJsonPaths: [],
-    extraScssSourcePaths: [],
-    publishedAutoThemePairs: [],
-    themeDescriptions: {},
-  },
-  cwd,
-})
-
-const watchTargets = [paths.source.markdownEntryPath, paths.source.buildConfigPath]
+const watchTargets = [
+  projectConfig.markdownEntryPath,
+  'scripts/config/project.js',
+  'scripts/config/published-bundles.js',
+  'scripts/config/token-sources.js',
+  'scripts/config/themes.js',
+].map(path => `${cwd}/${path}`)
 
 let activeBuild = null
 let rebuildPending = false
@@ -38,7 +33,7 @@ async function main() {
   }
 
   console.log(
-    '[dev] Watching src/primer-markdown-extended.scss and scripts/build-config.mjs for changes'
+    '[dev] Watching src/primer-markdown-extended.scss and scripts/config/*.js for changes'
   )
 
   for (const signal of ['SIGINT', 'SIGTERM']) {
@@ -71,7 +66,7 @@ async function runBuild(reason) {
   }
 
   console.log(`[dev] Rebuilding because ${reason}`)
-  activeBuild = spawn(process.execPath, ['./scripts/build-css.mjs'], {
+  activeBuild = spawn(process.execPath, ['./scripts/build-css.js'], {
     cwd,
     stdio: 'inherit',
   })
