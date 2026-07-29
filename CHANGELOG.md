@@ -1,6 +1,6 @@
 # Change log
 
-## github-markdown-css@0.0.2
+## github-markdown-css@0.0.3
 
 > 2026-07-30
 
