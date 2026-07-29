@@ -30,7 +30,11 @@
   "exports": {
     ".": "./dist/index.js",
     "./*.css": "./dist/*.css",
-    "./primer/*.css": "./dist/primer/*.css"
+    "./generic/*.css": "./dist/*.css",
+    "./pure.css": "./dist/pure.css",
+    "./primer/*.css": "./dist/primer/*.css",
+    "./scss": "./dist/scss/index.scss",
+    "./vscode/*.css": "./dist/vscode/*.css"
   },
   "publishConfig": {
     "access": "public"

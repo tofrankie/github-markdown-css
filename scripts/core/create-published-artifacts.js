@@ -8,131 +8,71 @@ export function createPublishedArtifacts({
 }) {
   const themeArtifactMap = new Map(themeArtifacts.map(artifact => [artifact.key, artifact]))
 
-  const primerThemeBundles = themeArtifacts.map(themeArtifact =>
-    createPrimerThemeBundle({ baseArtifacts, markdownCss, themeArtifact })
-  )
-  const scopedThemeBundles = themeArtifacts.map(themeArtifact =>
-    createScopedThemeBundle({ baseArtifacts, markdownCss, themeArtifact })
-  )
-  const primerAutoBundles = autoThemePairs.map(pair =>
-    createPrimerAutoBundle({
-      baseArtifacts,
-      darkThemeArtifact: getRequiredThemeArtifact(themeArtifactMap, pair.darkThemeKey),
-      fileName: pair.fileName,
-      lightThemeArtifact: getRequiredThemeArtifact(themeArtifactMap, pair.lightThemeKey),
-      markdownCss,
-    })
-  )
-  const scopedAutoBundles = autoThemePairs.map(pair =>
-    createScopedAutoBundle({
-      baseArtifacts,
-      darkThemeArtifact: getRequiredThemeArtifact(themeArtifactMap, pair.darkThemeKey),
-      fileName: pair.fileName,
-      lightThemeArtifact: getRequiredThemeArtifact(themeArtifactMap, pair.lightThemeKey),
-      markdownCss,
-    })
-  )
-
   return {
+    generic: {
+      autos: autoThemePairs.map(pair =>
+        createGenericAutoBundle({
+          baseArtifacts,
+          darkThemeArtifact: getRequiredThemeArtifact(themeArtifactMap, pair.darkThemeKey),
+          fileName: pair.fileName,
+          lightThemeArtifact: getRequiredThemeArtifact(themeArtifactMap, pair.lightThemeKey),
+          markdownCss,
+        })
+      ),
+      themes: themeArtifacts.map(themeArtifact =>
+        createGenericThemeBundle({ baseArtifacts, markdownCss, themeArtifact })
+      ),
+    },
     primer: {
-      autos: primerAutoBundles,
-      themes: primerThemeBundles,
+      autos: autoThemePairs.map(pair =>
+        createPrimerAutoBundle({
+          baseArtifacts,
+          darkThemeArtifact: getRequiredThemeArtifact(themeArtifactMap, pair.darkThemeKey),
+          fileName: pair.fileName,
+          lightThemeArtifact: getRequiredThemeArtifact(themeArtifactMap, pair.lightThemeKey),
+          markdownCss,
+        })
+      ),
+      themes: themeArtifacts.map(themeArtifact =>
+        createPrimerThemeBundle({ baseArtifacts, markdownCss, themeArtifact })
+      ),
     },
-    scoped: {
-      autos: scopedAutoBundles,
-      themes: scopedThemeBundles,
+    pure: createPureBundle({ markdownCss }),
+    vscode: {
+      autos: autoThemePairs.map(pair =>
+        createVscodeAutoBundle({
+          baseArtifacts,
+          darkThemeArtifact: getRequiredThemeArtifact(themeArtifactMap, pair.darkThemeKey),
+          fileName: pair.fileName,
+          lightThemeArtifact: getRequiredThemeArtifact(themeArtifactMap, pair.lightThemeKey),
+          markdownCss,
+        })
+      ),
+      themes: themeArtifacts.map(themeArtifact =>
+        createVscodeThemeBundle({ baseArtifacts, markdownCss, themeArtifact })
+      ),
     },
   }
 }
 
-function createPrimerThemeBundle({ baseArtifacts, markdownCss, themeArtifact }) {
-  const themeStructure = parseThemeArtifactStructure(themeArtifact)
-
-  return {
-    css: joinCssParts([
-      buildRootTokenBlock(extractMergedBodyLines(baseArtifacts)),
-      buildSelectorBlock(
-        [
-          `[data-color-mode='light'][data-light-theme='${themeStructure.lightThemeSelectorKey}']`,
-          `[data-color-mode='dark'][data-dark-theme='${themeStructure.darkThemeSelectorKey}']`,
-          `[data-color-mode='auto'][data-light-theme='${themeStructure.lightThemeSelectorKey}']`,
-        ],
-        themeStructure.topLevelBodyLines
-      ),
-      buildMediaSelectorBlock(
-        [
-          "[data-color-mode][data-color-mode='auto'][data-dark-theme='" +
-            `${themeStructure.darkThemeSelectorKey}']`,
-        ],
-        themeStructure.darkMediaBodyLines
-      ),
-      markdownCss,
-    ]),
-    fileName: `${themeArtifact.key}.css`,
-    darkThemeSelectorKey: themeStructure.darkThemeSelectorKey,
-    kind: 'theme',
-    lightThemeSelectorKey: themeStructure.lightThemeSelectorKey,
-    scope: 'primer',
-    themeKey: themeArtifact.key,
-  }
-}
-
-function createScopedThemeBundle({ baseArtifacts, markdownCss, themeArtifact }) {
+function createGenericThemeBundle({ baseArtifacts, markdownCss, themeArtifact }) {
   const themeStructure = parseThemeArtifactStructure(themeArtifact)
 
   return {
     css: joinCssParts([
       buildMarkdownBodyTokenBlock(extractMergedBodyLines(baseArtifacts)),
       buildMarkdownBodyTokenBlock(themeStructure.topLevelBodyLines),
+      buildMediaMarkdownBodyTokenBlock(themeStructure.darkMediaBodyLines),
       markdownCss,
     ]),
     fileName: `${themeArtifact.key}.css`,
     kind: 'theme',
-    scope: 'scoped',
+    group: 'generic',
     themeKey: themeArtifact.key,
   }
 }
 
-function createPrimerAutoBundle({
-  baseArtifacts,
-  darkThemeArtifact,
-  fileName,
-  lightThemeArtifact,
-  markdownCss,
-}) {
-  const lightThemeStructure = parseThemeArtifactStructure(lightThemeArtifact)
-  const darkThemeStructure = parseThemeArtifactStructure(darkThemeArtifact)
-
-  return {
-    css: joinCssParts([
-      buildRootTokenBlock(extractMergedBodyLines(baseArtifacts)),
-      buildSelectorBlock(
-        [
-          `[data-color-mode='light'][data-light-theme='${lightThemeStructure.lightThemeSelectorKey}']`,
-          `[data-color-mode='auto'][data-light-theme='${lightThemeStructure.lightThemeSelectorKey}']`,
-        ],
-        lightThemeStructure.topLevelBodyLines
-      ),
-      buildMediaSelectorBlock(
-        [
-          "[data-color-mode][data-color-mode='auto'][data-dark-theme='" +
-            `${darkThemeStructure.darkThemeSelectorKey}']`,
-        ],
-        darkThemeStructure.darkMediaBodyLines
-      ),
-      markdownCss,
-    ]),
-    darkThemeKey: darkThemeArtifact.key,
-    darkThemeSelectorKey: darkThemeStructure.darkThemeSelectorKey,
-    fileName: `${fileName}.css`,
-    kind: 'auto',
-    lightThemeKey: lightThemeArtifact.key,
-    lightThemeSelectorKey: lightThemeStructure.lightThemeSelectorKey,
-    scope: 'primer',
-  }
-}
-
-function createScopedAutoBundle({
+function createGenericAutoBundle({
   baseArtifacts,
   darkThemeArtifact,
   fileName,
@@ -151,9 +91,148 @@ function createScopedAutoBundle({
     ]),
     darkThemeKey: darkThemeArtifact.key,
     fileName: `${fileName}.css`,
+    group: 'generic',
     kind: 'auto',
     lightThemeKey: lightThemeArtifact.key,
-    scope: 'scoped',
+  }
+}
+
+function createPrimerThemeBundle({ baseArtifacts, markdownCss, themeArtifact }) {
+  const themeStructure = parseThemeArtifactStructure(themeArtifact)
+  const isLight = themeArtifact.key.startsWith('light')
+  const fixedSelectors = isLight
+    ? [
+        "[data-color-mode='light'][data-light-theme='light']",
+        "[data-color-mode='auto'][data-light-theme='light']",
+      ]
+    : [
+        "[data-color-mode='dark'][data-dark-theme='dark']",
+        "[data-color-mode='auto'][data-light-theme='dark']",
+      ]
+  const darkMediaSelectors = isLight
+    ? ["[data-color-mode='auto'][data-dark-theme='light']"]
+    : ["[data-color-mode='auto'][data-dark-theme='dark']"]
+
+  return {
+    css: joinCssParts([
+      buildMarkdownBodyTokenBlock(extractMergedBodyLines(baseArtifacts)),
+      buildScopeBlock(fixedSelectors, themeStructure.topLevelBodyLines),
+      buildScopeBlock(darkMediaSelectors, themeStructure.darkMediaBodyLines, {
+        media: '(prefers-color-scheme: dark)',
+      }),
+      markdownCss,
+    ]),
+    fileName: `${themeArtifact.key}.css`,
+    group: 'primer',
+    kind: 'theme',
+    themeKey: themeArtifact.key,
+  }
+}
+
+function createPrimerAutoBundle({
+  baseArtifacts,
+  darkThemeArtifact,
+  fileName,
+  lightThemeArtifact,
+  markdownCss,
+}) {
+  const lightThemeStructure = parseThemeArtifactStructure(lightThemeArtifact)
+  const darkThemeStructure = parseThemeArtifactStructure(darkThemeArtifact)
+
+  return {
+    css: joinCssParts([
+      buildMarkdownBodyTokenBlock(extractMergedBodyLines(baseArtifacts)),
+      buildScopeBlock(
+        [
+          `[data-color-mode='light'][data-light-theme='${lightThemeStructure.lightThemeSelectorKey}']`,
+        ],
+        lightThemeStructure.topLevelBodyLines
+      ),
+      buildScopeBlock(
+        [
+          `[data-color-mode='auto'][data-light-theme='${lightThemeStructure.lightThemeSelectorKey}']`,
+        ],
+        lightThemeStructure.topLevelBodyLines,
+        { media: '(prefers-color-scheme: light)' }
+      ),
+      buildScopeBlock(
+        [`[data-color-mode='dark'][data-dark-theme='${darkThemeStructure.darkThemeSelectorKey}']`],
+        darkThemeStructure.topLevelBodyLines
+      ),
+      buildScopeBlock(
+        [`[data-color-mode='auto'][data-dark-theme='${darkThemeStructure.darkThemeSelectorKey}']`],
+        darkThemeStructure.darkMediaBodyLines,
+        { media: '(prefers-color-scheme: dark)' }
+      ),
+      markdownCss,
+    ]),
+    darkThemeKey: darkThemeArtifact.key,
+    fileName: `${fileName}.css`,
+    group: 'primer',
+    kind: 'auto',
+    lightThemeKey: lightThemeArtifact.key,
+  }
+}
+
+function createVscodeThemeBundle({ baseArtifacts, markdownCss, themeArtifact }) {
+  const themeStructure = parseThemeArtifactStructure(themeArtifact)
+  const selector = themeArtifact.key.startsWith('light')
+    ? "body[data-vscode-theme-kind='vscode-light'] .markdown-body"
+    : "body[data-vscode-theme-kind='vscode-dark'] .markdown-body"
+
+  return {
+    css: joinCssParts([
+      buildMarkdownBodyTokenBlock(extractMergedBodyLines(baseArtifacts)),
+      buildScopeBlock([selector], themeStructure.topLevelBodyLines),
+      buildScopeBlock([selector], themeStructure.darkMediaBodyLines, {
+        media: '(prefers-color-scheme: dark)',
+      }),
+      markdownCss,
+    ]),
+    fileName: `${themeArtifact.key}.css`,
+    group: 'vscode',
+    kind: 'theme',
+    themeKey: themeArtifact.key,
+  }
+}
+
+function createVscodeAutoBundle({
+  baseArtifacts,
+  darkThemeArtifact,
+  fileName,
+  lightThemeArtifact,
+  markdownCss,
+}) {
+  const lightThemeStructure = parseThemeArtifactStructure(lightThemeArtifact)
+  const darkThemeStructure = parseThemeArtifactStructure(darkThemeArtifact)
+
+  return {
+    css: joinCssParts([
+      buildMarkdownBodyTokenBlock(extractMergedBodyLines(baseArtifacts)),
+      buildScopeBlock(
+        ["body[data-vscode-theme-kind='vscode-light'] .markdown-body"],
+        lightThemeStructure.topLevelBodyLines
+      ),
+      buildScopeBlock(
+        ["body[data-vscode-theme-kind='vscode-dark'] .markdown-body"],
+        darkThemeStructure.topLevelBodyLines
+      ),
+      markdownCss,
+    ]),
+    darkThemeKey: darkThemeArtifact.key,
+    fileName: `${fileName}.css`,
+    group: 'vscode',
+    kind: 'auto',
+    lightThemeKey: lightThemeArtifact.key,
+  }
+}
+
+function createPureBundle({ markdownCss }) {
+  return {
+    css: markdownCss,
+    fileName: 'pure.css',
+    group: 'pure',
+    kind: 'theme',
   }
 }
 
@@ -163,6 +242,7 @@ function parseThemeArtifactStructure(themeArtifact) {
 
   return {
     darkMediaBodyLines: darkMediaScope.bodyLines,
+    darkMediaSelectors: extractSelectors(darkMediaScope.headerLines),
     darkThemeSelectorKey:
       extractSelectorAttributeValue(darkMediaScope.headerLines, 'data-dark-theme') ??
       extractSelectorAttributeValue(topLevelScope.headerLines, 'data-dark-theme'),
@@ -171,6 +251,7 @@ function parseThemeArtifactStructure(themeArtifact) {
       'data-light-theme'
     ),
     topLevelBodyLines: topLevelScope.bodyLines,
+    topLevelSelectors: extractSelectors(topLevelScope.headerLines),
   }
 }
 
@@ -207,10 +288,7 @@ function extractDarkMediaScope(css) {
   }
 
   const mediaScope = consumeScope(lines, mediaStartIndex)
-  // Primer nests the dark selector inside the media query; the published builders only need that inner block.
-  const nestedScope = extractFirstNestedScope(mediaScope.bodyLines)
-
-  return nestedScope
+  return extractFirstNestedScope(mediaScope.bodyLines)
 }
 
 function extractFirstNestedScope(lines) {
@@ -276,25 +354,19 @@ function extractSelectorAttributeValue(headerLines, attributeName) {
   return headerText.match(pattern)?.[1] ?? null
 }
 
-function buildSelectorBlock(selectors, bodyLines) {
-  return ensureTrailingNewline(`${selectors.join(',\n')} {\n${bodyLines.join('\n')}\n}`)
-}
-
-function buildMediaSelectorBlock(selectors, bodyLines) {
-  return ensureTrailingNewline(
-    `@media (prefers-color-scheme: dark) {\n${indentLines(
-      buildSelectorBlock(selectors, bodyLines).trimEnd(),
-      2
-    )}\n}`
-  )
+function extractSelectors(headerLines) {
+  return headerLines
+    .join('\n')
+    .replace(/\{/g, '')
+    .split(',')
+    .map(selector => selector.trim())
+    .filter(Boolean)
 }
 
 function buildMarkdownBodyTokenBlock(bodyLines) {
-  return ensureTrailingNewline(`.markdown-body {\n${bodyLines.join('\n')}\n}`)
-}
-
-function buildRootTokenBlock(bodyLines) {
-  return ensureTrailingNewline(`:root {\n${bodyLines.join('\n')}\n}`)
+  return ensureTrailingNewline(
+    `.markdown-body {\n${trimTrailingBlankLines(bodyLines).join('\n')}\n}`
+  )
 }
 
 function buildMediaMarkdownBodyTokenBlock(bodyLines) {
@@ -306,10 +378,19 @@ function buildMediaMarkdownBodyTokenBlock(bodyLines) {
   )
 }
 
+function buildScopeBlock(selectors, bodyLines, { media } = {}) {
+  const block = ensureTrailingNewline(`${selectors.join(',\n')} {\n${bodyLines.join('\n')}\n}`)
+
+  if (!media) {
+    return block
+  }
+
+  return ensureTrailingNewline(`@media ${media} {\n${indentLines(block.trimEnd(), 2)}\n}`)
+}
+
 function extractMergedBodyLines(baseArtifacts) {
-  // Base size and typography stay separate in source/slim artifacts, but published bundles
-  // collapse them into one scope block to keep the final CSS easier to consume.
-  let hasMergedLines = false
+  const emittedTokenNames = new Set()
+  let hasPreviousSection = false
 
   return baseArtifacts.flatMap(artifact => {
     if (artifact.css.trim() === '') {
@@ -317,12 +398,68 @@ function extractMergedBodyLines(baseArtifacts) {
     }
 
     const scope = extractFirstTopLevelScope(artifact.css)
-    const lines = hasMergedLines ? ['', ...scope.bodyLines] : scope.bodyLines
+    const nextLines = scope.bodyLines.filter(line => {
+      const declaration = parseTokenDeclaration(line)
 
-    hasMergedLines = true
+      if (!declaration) {
+        return true
+      }
 
-    return lines
+      if (emittedTokenNames.has(declaration.tokenName)) {
+        return false
+      }
+
+      emittedTokenNames.add(declaration.tokenName)
+      return true
+    })
+
+    const nextTokenLines = nextLines.filter(line => line.trim() !== '')
+
+    if (nextTokenLines.length === 0) {
+      return []
+    }
+
+    const section = []
+
+    if (hasPreviousSection) {
+      section.push('')
+    }
+
+    section.push(`  /* source: ${formatSourceCommentPath(artifact)} */`)
+    section.push(...nextLines)
+    hasPreviousSection = true
+
+    return section
   })
+}
+
+function formatSourceCommentPath(artifact) {
+  const sourcePath = artifact.displayPath ?? artifact.path
+
+  if (sourcePath.startsWith('node_modules/')) {
+    return sourcePath.slice('node_modules/'.length)
+  }
+
+  return sourcePath
+}
+
+function parseTokenDeclaration(line) {
+  const trimmedLine = line.trim()
+
+  if (!trimmedLine.startsWith('--')) {
+    return null
+  }
+
+  const separatorIndex = trimmedLine.indexOf(':')
+  const terminatorIndex = trimmedLine.indexOf(';')
+
+  if (separatorIndex === -1 || terminatorIndex === -1 || separatorIndex >= terminatorIndex) {
+    return null
+  }
+
+  return {
+    tokenName: trimmedLine.slice(0, separatorIndex).trim(),
+  }
 }
 
 function indentLines(value, size) {

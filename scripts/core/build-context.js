@@ -1,9 +1,11 @@
 import { resolve } from 'node:path'
 
 export function createBuildContext({
-  autoThemeBundles,
   cwd,
+  exportGroups,
   extraMarkdownTokenInputs,
+  publishedAutoBundles,
+  publishedThemeKeys,
   projectConfig,
   tokenSources,
 }) {
@@ -21,16 +23,20 @@ export function createBuildContext({
         themesDir: resolve(artifactsRootDir, 'full/themes'),
       },
       published: {
+        genericDir: resolve(artifactsRootDir, 'published/generic'),
         primerDir: resolve(artifactsRootDir, 'published/primer'),
-        scopedDir: resolve(artifactsRootDir, 'published/scoped'),
+        pureDir: resolve(artifactsRootDir, 'published/pure'),
+        vscodeDir: resolve(artifactsRootDir, 'published/vscode'),
       },
       reports: {
         fullDir: resolve(artifactsRootDir, 'reports/full'),
+        genericDir: resolve(artifactsRootDir, 'reports/generic'),
         markdownTokenNamesPath: resolve(artifactsRootDir, 'reports/markdown-token-names.json'),
         primerDir: resolve(artifactsRootDir, 'reports/primer'),
+        pureDir: resolve(artifactsRootDir, 'reports/pure'),
         reportPath: resolve(artifactsRootDir, 'reports/report.json'),
-        scopedDir: resolve(artifactsRootDir, 'reports/scoped'),
         slimDir: resolve(artifactsRootDir, 'reports/slim'),
+        vscodeDir: resolve(artifactsRootDir, 'reports/vscode'),
       },
       rootDir: artifactsRootDir,
       slim: {
@@ -44,7 +50,13 @@ export function createBuildContext({
       dir: distDir,
       indexPath: resolve(distDir, 'index.js'),
       primerDir: resolve(distDir, 'primer'),
+      purePath: resolve(distDir, 'pure.css'),
+      scssDir: resolve(distDir, 'scss'),
+      scssIndexPath: resolve(distDir, 'scss/index.scss'),
+      vscodeDir: resolve(distDir, 'vscode'),
     },
+    exportGroups: exportGroups.map(group => ({ ...group })),
+    publishedThemeKeys: [...publishedThemeKeys],
     source: {
       fixtureTemplatePath: resolve(cwd, projectConfig.fixtureTemplatePath),
       markdownEntryPath: resolve(cwd, projectConfig.markdownEntryPath),
@@ -52,10 +64,11 @@ export function createBuildContext({
     tokenInputs: extraMarkdownTokenInputs.map(input => resolve(cwd, input)),
     tokenSources: tokenSources.map(source => ({
       ...source,
+      displayPath: source.path,
       path: resolve(cwd, source.path),
     })),
     publishedBundles: {
-      auto: autoThemeBundles.map(bundle => ({ ...bundle })),
+      auto: publishedAutoBundles.map(bundle => ({ ...bundle })),
     },
   }
 }

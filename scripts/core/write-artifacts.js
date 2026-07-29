@@ -6,21 +6,33 @@ import { ensureTrailingNewline } from './resolve-token-scope.js'
 export async function preparePublishedOutputDirectory(paths) {
   await rm(paths.dist.dir, { force: true, recursive: true })
   await Promise.all(
-    [paths.dist.dir, paths.dist.primerDir].map(path => mkdir(path, { recursive: true }))
+    [paths.dist.dir, paths.dist.primerDir, paths.dist.vscodeDir, paths.dist.scssDir].map(path =>
+      mkdir(path, { recursive: true })
+    )
   )
 }
 
 export async function prepareArtifactsOutputDirectories(paths) {
+  const legacyPaths = [
+    join(paths.artifacts.rootDir, 'published/scoped'),
+    join(paths.artifacts.rootDir, 'reports/scoped'),
+  ]
+
   await Promise.all(
     [
+      ...legacyPaths,
       paths.artifacts.full.markdownDir,
       paths.artifacts.full.baseDir,
       paths.artifacts.full.bundlesDir,
       paths.artifacts.full.themesDir,
+      paths.artifacts.published.genericDir,
       paths.artifacts.published.primerDir,
-      paths.artifacts.published.scopedDir,
+      paths.artifacts.published.pureDir,
+      paths.artifacts.published.vscodeDir,
+      paths.artifacts.reports.genericDir,
       paths.artifacts.reports.primerDir,
-      paths.artifacts.reports.scopedDir,
+      paths.artifacts.reports.pureDir,
+      paths.artifacts.reports.vscodeDir,
       paths.artifacts.slim.baseDir,
       paths.artifacts.slim.bundlesDir,
       paths.artifacts.slim.themesDir,
@@ -36,10 +48,14 @@ export async function prepareArtifactsOutputDirectories(paths) {
       paths.artifacts.full.bundlesDir,
       paths.artifacts.full.markdownDir,
       paths.artifacts.full.themesDir,
+      paths.artifacts.published.genericDir,
       paths.artifacts.published.primerDir,
-      paths.artifacts.published.scopedDir,
+      paths.artifacts.published.pureDir,
+      paths.artifacts.published.vscodeDir,
+      paths.artifacts.reports.genericDir,
       paths.artifacts.reports.primerDir,
-      paths.artifacts.reports.scopedDir,
+      paths.artifacts.reports.pureDir,
+      paths.artifacts.reports.vscodeDir,
       paths.artifacts.slim.baseDir,
       paths.artifacts.slim.bundlesDir,
       paths.artifacts.slim.themesDir,
@@ -53,14 +69,27 @@ export async function writePublishedArtifacts({ artifactRoot, paths, publishedAr
   const outputRoot = artifactRoot ?? paths.dist
 
   await writeFile(paths.dist.indexPath, 'export {}\n')
-  await writeBundleArtifacts(outputRoot.scopedDir ?? outputRoot.dir, [
-    ...publishedArtifacts.scoped.themes,
-    ...publishedArtifacts.scoped.autos,
+  await writeBundleArtifacts(outputRoot.genericDir ?? outputRoot.dir, [
+    ...publishedArtifacts.generic.themes,
+    ...publishedArtifacts.generic.autos,
   ])
   await writeBundleArtifacts(outputRoot.primerDir, [
     ...publishedArtifacts.primer.themes,
     ...publishedArtifacts.primer.autos,
   ])
+  await writeBundleArtifacts(outputRoot.vscodeDir, [
+    ...publishedArtifacts.vscode.themes,
+    ...publishedArtifacts.vscode.autos,
+  ])
+  const pureOutputPath = outputRoot.pureDir
+    ? join(outputRoot.pureDir, publishedArtifacts.pure.fileName)
+    : paths.dist.purePath
+  await writeFile(pureOutputPath, publishedArtifacts.pure.css)
+}
+
+export async function writeScssArtifacts({ paths, scssArtifacts }) {
+  await mkdir(paths.dist.scssDir, { recursive: true })
+  await writeFile(paths.dist.scssIndexPath, scssArtifacts.css)
 }
 
 export async function writeFullArtifacts({
@@ -126,6 +155,23 @@ export async function writeValidationArtifacts({
     )
   }
 
+  for (const bundle of [
+    ...publishedArtifacts.generic.themes,
+    ...publishedArtifacts.generic.autos,
+  ]) {
+    const cssPath = join(paths.artifacts.published.genericDir, bundle.fileName)
+    const outputPath = join(paths.artifacts.reports.genericDir, `${bundle.fileName}.html`)
+
+    await writeFile(
+      outputPath,
+      buildFixtureDocument({
+        bodyHtml: fixturesHtml,
+        cssHref: relative(dirname(outputPath), cssPath),
+        title: `Generic published fixture - ${bundle.fileName}`,
+      })
+    )
+  }
+
   for (const bundle of [...publishedArtifacts.primer.themes, ...publishedArtifacts.primer.autos]) {
     const cssPath = join(paths.artifacts.published.primerDir, bundle.fileName)
     const outputPath = join(paths.artifacts.reports.primerDir, `${bundle.fileName}.html`)
@@ -141,19 +187,34 @@ export async function writeValidationArtifacts({
     )
   }
 
-  for (const bundle of [...publishedArtifacts.scoped.themes, ...publishedArtifacts.scoped.autos]) {
-    const cssPath = join(paths.artifacts.published.scopedDir, bundle.fileName)
-    const outputPath = join(paths.artifacts.reports.scopedDir, `${bundle.fileName}.html`)
+  for (const bundle of [...publishedArtifacts.vscode.themes, ...publishedArtifacts.vscode.autos]) {
+    const cssPath = join(paths.artifacts.published.vscodeDir, bundle.fileName)
+    const outputPath = join(paths.artifacts.reports.vscodeDir, `${bundle.fileName}.html`)
 
     await writeFile(
       outputPath,
       buildFixtureDocument({
         bodyHtml: fixturesHtml,
         cssHref: relative(dirname(outputPath), cssPath),
-        title: `Scoped published fixture - ${bundle.fileName}`,
+        title: `Vscode published fixture - ${bundle.fileName}`,
       })
     )
   }
+
+  const pureCssPath = join(paths.artifacts.published.pureDir, publishedArtifacts.pure.fileName)
+  const pureOutputPath = join(
+    paths.artifacts.reports.pureDir,
+    `${publishedArtifacts.pure.fileName}.html`
+  )
+
+  await writeFile(
+    pureOutputPath,
+    buildFixtureDocument({
+      bodyHtml: fixturesHtml,
+      cssHref: relative(dirname(pureOutputPath), pureCssPath),
+      title: `Pure published fixture - ${publishedArtifacts.pure.fileName}`,
+    })
+  )
 }
 
 async function writeCssArtifacts(outputDir, artifacts) {

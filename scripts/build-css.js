@@ -5,6 +5,7 @@ import {
   readThemeArtifacts,
 } from './core/collect-sources.js'
 import { createPublishedArtifacts } from './core/create-published-artifacts.js'
+import { createScssArtifacts } from './core/create-scss-artifacts.js'
 import { loadBuildContext } from './core/load-config.js'
 import {
   createMarkdownTokenNames,
@@ -12,7 +13,11 @@ import {
   resolveMarkdownTokenScope,
 } from './core/resolve-token-scope.js'
 import { assertNoMissingRequiredTokenNames } from './core/validate-artifacts.js'
-import { preparePublishedOutputDirectory, writePublishedArtifacts } from './core/write-artifacts.js'
+import {
+  preparePublishedOutputDirectory,
+  writePublishedArtifacts,
+  writeScssArtifacts,
+} from './core/write-artifacts.js'
 
 main()
 
@@ -54,6 +59,11 @@ async function main() {
     markdownCss,
     themeArtifacts: slimArtifacts.themeArtifacts,
   })
+  const scssArtifacts = createScssArtifacts({
+    baseArtifacts: slimArtifacts.baseArtifacts,
+    markdownCss,
+    themeArtifacts: slimArtifacts.themeArtifacts,
+  })
 
   assertNoMissingRequiredTokenNames(tokenScope)
 
@@ -61,4 +71,5 @@ async function main() {
     publishedArtifacts,
     paths,
   })
+  await writeScssArtifacts({ paths, scssArtifacts })
 }

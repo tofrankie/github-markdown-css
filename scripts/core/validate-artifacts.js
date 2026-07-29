@@ -108,13 +108,13 @@ export function buildValidationReport({
 }
 
 export function assertValidationReport({ markdownTokenNames, report }) {
-  const scopedCount =
+  const requiredScopedCount =
     Object.values(report.tokenScope.base).reduce(
       (count, tokenNames) => count + tokenNames.length,
       0
     ) + report.tokenScope.theme.length
 
-  if (scopedCount === 0) {
+  if (requiredScopedCount === 0) {
     throw new Error('No in-scope markdown tokens were captured for validation')
   }
 
@@ -260,7 +260,11 @@ function createPublishedOutputReport(publishedArtifacts) {
     primer: [...publishedArtifacts.primer.themes, ...publishedArtifacts.primer.autos].map(bundle =>
       serializePublishedBundle(bundle)
     ),
-    scoped: [...publishedArtifacts.scoped.themes, ...publishedArtifacts.scoped.autos].map(bundle =>
+    generic: [...publishedArtifacts.generic.themes, ...publishedArtifacts.generic.autos].map(
+      bundle => serializePublishedBundle(bundle)
+    ),
+    pure: serializePublishedBundle(publishedArtifacts.pure),
+    vscode: [...publishedArtifacts.vscode.themes, ...publishedArtifacts.vscode.autos].map(bundle =>
       serializePublishedBundle(bundle)
     ),
   }
@@ -280,23 +284,42 @@ function serializePublishedBundle(bundle) {
 
 function assertPublishedOutputReport(report) {
   const primerAuto = report.primer.find(bundle => bundle.fileName === 'auto.css')
-  const scopedAuto = report.scoped.find(bundle => bundle.fileName === 'auto.css')
+  const genericAuto = report.generic.find(bundle => bundle.fileName === 'auto.css')
+  const vscodeAuto = report.vscode.find(bundle => bundle.fileName === 'auto.css')
 
-  if (!primerAuto || !scopedAuto) {
-    throw new Error('Published output report is missing auto.css for primer or scoped scope')
+  if (!primerAuto || !genericAuto || !vscodeAuto) {
+    throw new Error('Published output report is missing auto.css for primer, generic, or vscode')
   }
 
-  if (!primerAuto.hasDarkMedia || !scopedAuto.hasDarkMedia) {
-    throw new Error('auto.css must retain prefers-color-scheme dark handling in both scopes')
-  }
-
-  const scopedThemeWithoutMedia = report.scoped
-    .filter(bundle => bundle.kind === 'theme')
-    .every(bundle => !bundle.hasDarkMedia)
-
-  if (!scopedThemeWithoutMedia) {
+  if (!primerAuto.hasDarkMedia || !genericAuto.hasDarkMedia) {
     throw new Error(
-      'Scoped single-theme bundles should not duplicate prefers-color-scheme dark blocks'
+      'auto.css must retain prefers-color-scheme dark handling for primer and generic'
     )
+  }
+
+  if (vscodeAuto.hasDarkMedia) {
+    throw new Error('vscode auto.css should not rely on prefers-color-scheme dark media handling')
+  }
+
+  const genericThemesWithMedia = report.generic
+    .filter(bundle => bundle.kind === 'theme')
+    .every(bundle => bundle.hasDarkMedia)
+
+  if (!genericThemesWithMedia) {
+    throw new Error(
+      'Generic single-theme bundles must repeat theme token definitions in dark media'
+    )
+  }
+
+  const vscodeThemesWithMedia = report.vscode
+    .filter(bundle => bundle.kind === 'theme')
+    .every(bundle => bundle.hasDarkMedia)
+
+  if (!vscodeThemesWithMedia) {
+    throw new Error('Vscode single-theme bundles must repeat theme token definitions in dark media')
+  }
+
+  if (report.pure.hasDarkMedia) {
+    throw new Error('pure.css must not include prefers-color-scheme media branches')
   }
 }

@@ -7,6 +7,7 @@ import {
   readThemeArtifacts,
 } from './core/collect-sources.js'
 import { createPublishedArtifacts } from './core/create-published-artifacts.js'
+import { createScssArtifacts } from './core/create-scss-artifacts.js'
 import { loadBuildContext } from './core/load-config.js'
 import {
   createMarkdownTokenNames,
@@ -22,6 +23,7 @@ import {
   prepareArtifactsOutputDirectories,
   writeFullArtifacts,
   writePublishedArtifacts,
+  writeScssArtifacts,
   writeSlimArtifacts,
   writeValidationArtifacts,
 } from './core/write-artifacts.js'
@@ -69,6 +71,11 @@ async function main() {
     markdownCss,
     themeArtifacts: slimArtifacts.themeArtifacts,
   })
+  const scssArtifacts = createScssArtifacts({
+    baseArtifacts: slimArtifacts.baseArtifacts,
+    markdownCss,
+    themeArtifacts: slimArtifacts.themeArtifacts,
+  })
   const validationReport = buildValidationReport({
     baseArtifacts,
     fullBundles,
@@ -93,6 +100,7 @@ async function main() {
     publishedArtifacts,
     paths,
   })
+  await writeScssArtifacts({ paths, scssArtifacts })
   await writeValidationArtifacts({
     fixturesHtml,
     markdownTokenNames,
