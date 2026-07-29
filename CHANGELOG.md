@@ -2,6 +2,12 @@
 
 ## github-markdown-css@0.0.2
 
+> 2026-07-30
+
+- Completely redesigned, please refer to the README to adjust the integration method
+
+## github-markdown-css@0.0.2
+
 > 2026-07-29
 
 - Fixed some bug in VS Code WebView
