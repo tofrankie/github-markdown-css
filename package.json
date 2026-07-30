@@ -71,9 +71,9 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.1",
-    "@fission-ai/openspec": "^1.6.0",
+    "@fission-ai/openspec": "^1.7.0",
     "@primer/css": "^22.3.0",
-    "@primer/primitives": "^11.9.0",
+    "@primer/primitives": "^11.10.0",
     "@tofrankie/action": "^0.0.9",
     "@tofrankie/commitlint": "^0.0.6",
     "@tofrankie/eslint": "^0.5.0",

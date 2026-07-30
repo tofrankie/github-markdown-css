@@ -18,7 +18,7 @@
   --fgColor-attention: #d29922; /** Attention text for warnings and caution states */
   --fgColor-danger: #f0883e; /** Danger text for errors and destructive actions */
   --fgColor-default: #f0f6fc; /** Default text color for primary content and headings */
-  --fgColor-done: #ab7df8; /** Text color for completed/done state indicators */
+  --fgColor-done: #b7bdc8; /** Text color for completed/done state indicators */
   --fgColor-muted: #9198a1; /** Muted text for secondary content and less important information */
   --fgColor-success: #58a6ff; /** Success text for positive feedback and completed states */
   --borderColor-muted: #3d444db3; /** Subtle border for secondary elements and light separators */
@@ -42,7 +42,7 @@
     --fgColor-attention: #d29922; /** Attention text for warnings and caution states */
     --fgColor-danger: #f0883e; /** Danger text for errors and destructive actions */
     --fgColor-default: #f0f6fc; /** Default text color for primary content and headings */
-    --fgColor-done: #ab7df8; /** Text color for completed/done state indicators */
+    --fgColor-done: #b7bdc8; /** Text color for completed/done state indicators */
     --fgColor-muted: #9198a1; /** Muted text for secondary content and less important information */
     --fgColor-success: #58a6ff; /** Success text for positive feedback and completed states */
     --borderColor-muted: #3d444db3; /** Subtle border for secondary elements and light separators */

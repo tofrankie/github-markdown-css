@@ -476,7 +476,7 @@
   --fgColor-danger: #f0883e; /** Danger text for errors and destructive actions */
   --fgColor-default: #f0f6fc; /** Default text color for primary content and headings */
   --fgColor-disabled: #656c76; /** Text color for disabled interactive elements */
-  --fgColor-done: #ab7df8; /** Text color for completed/done state indicators */
+  --fgColor-done: #b7bdc8; /** Text color for completed/done state indicators */
   --fgColor-link: var(--fgColor-accent); /** Text color for hyperlinks */
   --fgColor-muted: #9198a1; /** Muted text for secondary content and less important information */
   --fgColor-neutral: #9198a1; /** Neutral semantic text for icons and secondary elements */
@@ -484,6 +484,7 @@
   --fgColor-severe: #db6d28; /** Severe text for high-priority warnings */
   --fgColor-sponsors: #db61a2; /** Text color for GitHub Sponsors content */
   --fgColor-success: #58a6ff; /** Success text for positive feedback and completed states */
+  --fgColor-upsell: #ab7df8; /** Text color for upsell and promotional content */
   --header-bgColor: #151b23f2;
   --header-borderColor-divider: #656c76;
   --header-fgColor-logo: #f0f6fc;
@@ -844,7 +845,6 @@
   --fgColor-draft: var(--fgColor-neutral); /** Text color for draft state indicators */
   --fgColor-onEmphasis: #ffffff; /** Text color for use on emphasis backgrounds */
   --fgColor-onInverse: #010409; /** Text color for use on inverse backgrounds */
-  --fgColor-upsell: var(--fgColor-done); /** Text color for upsell and promotional content */
   --fgColor-white: #ffffff; /** Pure white text */
   --focus-outline-color: var(--borderColor-accent-emphasis); /** Outline color for focus states on interactive elements */
   --header-fgColor-default: #ffffffb3;
@@ -1438,7 +1438,7 @@
     --fgColor-danger: #f0883e; /** Danger text for errors and destructive actions */
     --fgColor-default: #f0f6fc; /** Default text color for primary content and headings */
     --fgColor-disabled: #656c76; /** Text color for disabled interactive elements */
-    --fgColor-done: #ab7df8; /** Text color for completed/done state indicators */
+    --fgColor-done: #b7bdc8; /** Text color for completed/done state indicators */
     --fgColor-link: var(--fgColor-accent); /** Text color for hyperlinks */
     --fgColor-muted: #9198a1; /** Muted text for secondary content and less important information */
     --fgColor-neutral: #9198a1; /** Neutral semantic text for icons and secondary elements */
@@ -1446,6 +1446,7 @@
     --fgColor-severe: #db6d28; /** Severe text for high-priority warnings */
     --fgColor-sponsors: #db61a2; /** Text color for GitHub Sponsors content */
     --fgColor-success: #58a6ff; /** Success text for positive feedback and completed states */
+    --fgColor-upsell: #ab7df8; /** Text color for upsell and promotional content */
     --header-bgColor: #151b23f2;
     --header-borderColor-divider: #656c76;
     --header-fgColor-logo: #f0f6fc;
@@ -1806,7 +1807,6 @@
     --fgColor-draft: var(--fgColor-neutral); /** Text color for draft state indicators */
     --fgColor-onEmphasis: #ffffff; /** Text color for use on emphasis backgrounds */
     --fgColor-onInverse: #010409; /** Text color for use on inverse backgrounds */
-    --fgColor-upsell: var(--fgColor-done); /** Text color for upsell and promotional content */
     --fgColor-white: #ffffff; /** Pure white text */
     --focus-outline-color: var(--borderColor-accent-emphasis); /** Outline color for focus states on interactive elements */
     --header-fgColor-default: #ffffffb3;
