@@ -1,5 +1,11 @@
 # Change log
 
+## github-markdown-css@0.0.5
+
+> 2026-07-31
+
+- Upgrade `@primer/primitives` to `11.10.0`
+
 ## github-markdown-css@0.0.4
 
 > 2026-07-31
