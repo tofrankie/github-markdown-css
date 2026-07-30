@@ -1,5 +1,12 @@
 # Change log
 
+## github-markdown-css@0.0.4
+
+> 2026-07-31
+
+- Change the default package import `@tofrankie/github-markdown-css` to load `light.css`
+- Fix SCSS import/export resolution
+
 ## github-markdown-css@0.0.3
 
 > 2026-07-30
