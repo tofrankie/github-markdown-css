@@ -48,7 +48,6 @@ export function createBuildContext({
     cwd,
     dist: {
       dir: distDir,
-      indexPath: resolve(distDir, 'index.js'),
       primerDir: resolve(distDir, 'primer'),
       purePath: resolve(distDir, 'pure.css'),
       scssDir: resolve(distDir, 'scss'),

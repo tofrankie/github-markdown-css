@@ -68,7 +68,6 @@ export async function prepareArtifactsOutputDirectories(paths) {
 export async function writePublishedArtifacts({ artifactRoot, paths, publishedArtifacts }) {
   const outputRoot = artifactRoot ?? paths.dist
 
-  await writeFile(paths.dist.indexPath, 'export {}\n')
   await writeBundleArtifacts(outputRoot.genericDir ?? outputRoot.dir, [
     ...publishedArtifacts.generic.themes,
     ...publishedArtifacts.generic.autos,

@@ -28,12 +28,21 @@
     "primer"
   ],
   "exports": {
-    ".": "./dist/index.js",
+    ".": {
+      "style": "./dist/light.css",
+      "import": "./dist/light.css",
+      "default": "./dist/light.css"
+    },
     "./*.css": "./dist/*.css",
     "./generic/*.css": "./dist/*.css",
     "./pure.css": "./dist/pure.css",
     "./primer/*.css": "./dist/primer/*.css",
-    "./scss": "./dist/scss/index.scss",
+    "./scss": {
+      "sass": "./dist/scss/index.scss",
+      "style": "./dist/scss/index.scss",
+      "import": "./dist/scss/index.scss",
+      "default": "./dist/scss/index.scss"
+    },
     "./vscode/*.css": "./dist/vscode/*.css"
   },
   "publishConfig": {
