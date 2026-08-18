@@ -2388,6 +2388,9 @@
 .markdown-body a:hover {
   color: var(--fgColor-accent);
 }
+.markdown-body code {
+  color: initial;
+}
 
 .markdown-body kbd {
   display: inline-block;
