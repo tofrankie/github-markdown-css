@@ -415,7 +415,7 @@
   color: var(--fgColor-accent);
 }
 .markdown-body code {
-  color: initial;
+  color: inherit;
 }
 
 .markdown-body kbd {
