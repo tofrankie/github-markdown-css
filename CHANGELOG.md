@@ -1,5 +1,11 @@
 # Change log
 
+## github-markdown-css@0.0.6
+
+> 2026-08-18
+
+- Fix code tag initial color
+
 ## github-markdown-css@0.0.5
 
 > 2026-07-31
