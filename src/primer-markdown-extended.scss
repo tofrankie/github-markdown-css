@@ -440,6 +440,11 @@
   a:hover {
     color: var(--fgColor-accent);
   }
+
+  // Code tag for normal/blockquote/link
+  code {
+    color: initial;
+  }
 }
 
 // 补充
