@@ -60,11 +60,11 @@
 
 为了让这 10 个文件不显得太散，可以再压成下面这张内容摘要表：
 
-| group          | `light.css`                                                                          | `dark.css`                                                                          | `auto.css`                                                                                                |
-| -------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| 默认 `generic` | `base definitions + light theme definitions + markdown rules`                        | `base definitions + dark theme definitions + markdown rules`                        | `base definitions + auto 机制所需的 light/dark theme definitions + markdown rules`                        |
-| `primer`       | `base definitions + light theme definitions + markdown rules，挂到 Primer selector`  | `base definitions + dark theme definitions + markdown rules，挂到 Primer selector`  | `base definitions + auto 机制所需的 light/dark theme definitions + markdown rules，挂到 Primer selector`  |
-| `vscode`       | `base definitions + light theme definitions + markdown rules，挂到 VS Code selector` | `base definitions + dark theme definitions + markdown rules，挂到 VS Code selector` | `base definitions + auto 机制所需的 light/dark theme definitions + markdown rules，挂到 VS Code selector` |
+| group | `light.css` | `dark.css` | `auto.css` |
+| --- | --- | --- | --- |
+| 默认 `generic` | `base definitions + light theme definitions + markdown rules` | `base definitions + dark theme definitions + markdown rules` | `base definitions + auto 机制所需的 light/dark theme definitions + markdown rules` |
+| `primer` | `base definitions + light theme definitions + markdown rules，挂到 Primer selector` | `base definitions + dark theme definitions + markdown rules，挂到 Primer selector` | `base definitions + auto 机制所需的 light/dark theme definitions + markdown rules，挂到 Primer selector` |
+| `vscode` | `base definitions + light theme definitions + markdown rules，挂到 VS Code selector` | `base definitions + dark theme definitions + markdown rules，挂到 VS Code selector` | `base definitions + auto 机制所需的 light/dark theme definitions + markdown rules，挂到 VS Code selector` |
 
 `pure` 单独说明：
 
@@ -156,10 +156,10 @@
 
 为了避免概念歧义，第一阶段可以先把公开导出分组理解成下面这个矩阵：
 
-| group          | `light.css`                                                      | `dark.css`                                                   | `auto.css`                                                                         |
-| -------------- | ---------------------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
-| 默认 `generic` | `base definitions + light theme definitions + markdown rules`    | `base definitions + dark theme definitions + markdown rules` | `base definitions + auto 机制所需的 light/dark theme definitions + markdown rules` |
-| `pure`         | colspan=3: `pure.css = markdown rules + var(--token) references` |
+| group | `light.css` | `dark.css` | `auto.css` |
+| --- | --- | --- | --- |
+| 默认 `generic` | `base definitions + light theme definitions + markdown rules` | `base definitions + dark theme definitions + markdown rules` | `base definitions + auto 机制所需的 light/dark theme definitions + markdown rules` |
+| `pure` | colspan=3: `pure.css = markdown rules + var(--token) references` |
 
 这里需要特别注意：
 
