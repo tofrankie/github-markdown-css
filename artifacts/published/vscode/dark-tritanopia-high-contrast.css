@@ -593,7 +593,7 @@ body[data-vscode-theme-kind='vscode-dark'] .markdown-body {
   margin-bottom: var(--base-size-16);
 }
 .markdown-body hr {
-  height: 0.25em;
+  height: 1px;
   padding: 0;
   margin: var(--base-size-24) 0;
   background-color: var(--borderColor-default, var(--color-border-default));

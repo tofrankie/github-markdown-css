@@ -1,5 +1,11 @@
 # Change log
 
+## github-markdown-css@0.0.8
+
+> 2026-11-15
+
+- Update @primer/css to `22.3.3` (Set the markdown `<hr>` thickness to 1px [#3157](https://github.com/primer/css/pull/3157))
+
 ## github-markdown-css@0.0.7
 
 > 2026-08-18
